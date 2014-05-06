@@ -1,0 +1,586 @@
+body, html {
+  height: 100%;
+}
+
+h3 {
+    margin:0px;
+}
+
+#headerContent{
+    background-color: transparent;
+    border-bottom-width: 0px;
+}
+
+#homeContent {
+    color: #292929;    
+    /*background-image:url(/my_sites/HopApp-master/resources/1.jpg);*/
+    background-size: cover;
+    display:block; width:100%; height:100%;
+    position:fixed !important;
+    font-family: "Segoe UI Light" !important;
+    text-shadow: none !important;
+}
+
+#homeContent h2{
+    margin-bottom: -25px;
+}
+
+
+#btnFacebook {
+    border: none;
+    color: white;
+    background-color: #365993;
+}
+
+#btnTwitter {
+    border: none;
+    color: white;
+    background-color: #2AC8FF;
+}
+
+#btnMingle{
+    border: none;
+    color: white;
+    background-color: #0095FF;
+    font-family: "Segoe UI Light" !important;
+    font-weight: 100;
+    text-shadow: none !important;
+}
+
+#clubName {
+    color: #7ce4e4;
+    font-size: 50px;
+    text-shadow: none !important;
+}
+
+#pageHome {
+}
+
+
+
+.progress-bar input[type=number], .ui-slider-handle {
+    display: none !important;
+}  
+
+.progress-bar .ui-slider-track {
+    margin: 0px;
+    margin-top: -15px;
+    margin-left: -1px;    
+    height: 46px;
+    background-color: white !important;
+}
+
+.ui-slider-bg {
+    background-color: #356c9f !important;
+}
+
+.progress-bar {
+    height: 12px;
+    border-style: double;
+    border-width: 1px;
+    background-color: white;
+    margin-left: 20px;
+    margin-right: 20px; 
+    margin-top: 0px !important;
+    margin-bottom: 2px !important;  
+}
+
+.homeBtnCss {
+    color: white !important;
+    background-color: #000015 !important;
+    border-color: transparent !important;
+    border-top-width: 5px  !important;
+    font-family: "Segoe UI Light" !important;
+    font-weight: 100 !important;
+    font-size: 12px !important;
+    text-shadow: none !important;
+
+}
+
+.searchBtnCss {
+    color: white !important;
+    background-color: #000015 !important;
+    border-color: transparent !important;
+    border-top-width: 5px  !important;
+    font-family: "Segoe UI Light" !important;
+    font-weight: 100 !important;
+    font-size: 12px !important;
+    text-shadow: none !important;
+}
+
+.profileBtnCss {
+    color: white !important;
+    background-color: #000015  !important;
+    border-color: transparent !important;
+    border-top-width: 5px  !important;
+    font-family: "Segoe UI Light" !important;
+    font-weight: 100 !important;
+    font-size: 12px !important;
+    text-shadow: none !important;
+}
+
+.selectedBtnCss {
+    border-top-color: #1ea0ff !important;
+}
+
+.footerCss {
+    background-color:#336198 !important;
+    border-width: 0px !important;
+    border-color: transparent !important;
+    margin-top: 0px !important;
+}
+
+.headerCss {
+    border-color: #656565 !important;   
+    background-color:#000015 !important;
+    border-width: 0px !important;
+    text-shadow: none !important;
+    font-family: "Segoe UI Light" !important;
+    font-weight: 100;
+    text-shadow: none !important;
+    color: #e4e4e4!important;
+}
+
+
+a[data-icon="twitter"].ui-icon-twitter {
+    background-image: url("resources/twitter_btn.png") !important;
+    background-color: transparent !important;
+    background-repeat: no-repeat !important;
+    border-width: 0px !important;
+    border:none !important;
+    display: inline-block!important;
+    height: 55px;
+    width: 20px;
+}
+
+div[data-role="main"] {
+    background-color: #00000D !important;
+    color: #e4e4e4 !important;
+    text-shadow: none;
+    font-family: "Segoe UI Light" !important;
+    font-weight:50;
+    text-shadow: none !important;
+}
+
+a[data-icon="fb"].ui-icon-fb {
+    background-image: url("resources/fb_btn.png") !important;
+    background-color: transparent !important;
+    background-repeat: no-repeat !important;
+    border-style: none !important;
+    border-width: 0px !important;
+    margin-right: 0px !important;
+    display: inline-block!important;
+    height: 55px;
+    width: 20px;
+}
+
+#outButtons {
+    position: fixed;
+    bottom: 90px;; 
+}
+
+.customAreaList{
+    font-family: "Segoe UI Light" !important;
+    font-size: 16px !important;
+    text-shadow: none !important;
+    background-size: cover!important;
+    height: 100px !important;
+}
+
+.customBtnQc {
+    background-image: url(/my_sites/HopApp-master/resources/areas/qc_bg.jpg) !important;
+}
+
+.customBtnBgc {
+    background-image: url(/my_sites/HopApp-master/resources/areas/bgc_bg.jpg) !important;
+}
+
+.customBtnMalate {
+    background-image: url(/my_sites/HopApp-master/resources/areas/malate_bg.jpg) !important;
+}
+
+.customBtnMakati {
+    background-image: url(/my_sites/HopApp-master/resources/areas/makati_bg.jpg) !important;
+}
+
+.customBtnPasay {
+    background-image: url(/my_sites/HopApp-master/resources/areas/pasay_bg.jpg) !important;
+}
+
+#searchTopText {
+    margin: 10px 10px;
+}
+
+#searchContent { 
+    font-family: "Segoe UI Light" !important;
+    font-size: 16px !important;
+    text-shadow: none !important; 
+    width:100%; 
+    height:100%;
+}
+
+
+#dareContent {
+    display:block; 
+    width:100%; 
+    height:100%;
+    position: fixed !important;
+    text-align: center;
+    text-shadow: none !important;
+}
+
+.mainProfileSection_1 {
+    /*text-align:center;*/
+    margin-left: 25px !important;
+    margin-top: 0px !important;
+    margin-bottom: : 0px !important;
+    font-family: Verdana, Geneva, sans-serif !important;
+    font-weight: 100 !important;
+    color: #F6F6E8;
+    width:100%; 
+    height:100%;  
+    text-shadow: none !important;
+}
+
+.mainProfileSection_2 {
+    /*text-align:center;*/
+    margin-top: 10px !important;
+    margin-left: 30px !important;
+    margin-bottom: : 0px !important;
+    font-family: Verdana, Geneva, sans-serif !important;
+    font-weight: 100 !important;
+    font-size: 12px !important;
+    color: #F6F6E8;
+    width:100%; 
+    height:100%;  
+    text-shadow: none !important;
+}
+
+.mainProfileHeader{
+    margin-top: 20px !important;
+    margin-left: 20px !important;
+    margin-bottom: : 2px !important;
+    font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif !important;
+    font-weight: 100 !important;
+    font-size: 16px !important;
+    color: #2d76a0;
+    width:100%; 
+    height:100%;  
+    text-shadow: none !important;
+}
+
+.profileKnob{
+
+    
+}
+
+#mainProfileExperienceData{
+    text-align: center !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    color: #F6F6E8;
+}
+
+#mainProfileContent{
+    font-family: "Segoe UI Light" !important;
+    text-shadow: none !important;
+    text-align:center;
+    width:100%; 
+    height:100%;
+}
+
+#userProfileContent {
+    position: fixed !important;
+    text-align:center;
+    display:block; 
+    width:100%; 
+    height:100%;
+    text-shadow: none !important;
+}
+
+.barInfo {
+    background-color: #222222;
+    font-family: "Segoe UI Light" !important;
+    font-weight: 100;
+    text-shadow: none !important;
+    margin-top: 0px !important;
+}
+
+div[data-role="popup"].div[data-role="header"] {
+    border-color: transparent !important;    
+    background-color:#FF9332 !important;
+    border-width: 0px !important;
+    text-shadow: none !important;
+}
+
+.readyToMingle{
+    text-align: center;
+    font-family: "Segoe UI Light" !important;
+    font-weight: 100 !important;
+    font-size: 15px !important;
+    background-color: #00cc27 !important;
+    color: white !important;
+    text-shadow: none !important;
+}
+
+.notInTheMood{
+    text-align: center;
+    font-family: "Segoe UI Light" !important;
+    font-weight: 100 !important;
+    font-size: 15px !important;
+    background-color: #c00 !important;
+    color: white !important;
+    text-shadow: none !important;
+}
+
+.ui-field-contain, .ui-mobile fieldset.ui-field-contain { 
+    border-width: 0 !important;
+    padding: 0 !important;
+    margin: 1em 0 !important; 
+  }
+
+.flat-btn,
+.flat-btn > .ui-btn-inner {
+    top: 10px; 
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    -webkit-border-radius: 0 !important;
+    border-radius: 0 !important;
+    text-shadow: 0 !important
+}
+
+#mainProfileUserFullName{
+    margin-top: 20px !important;
+}
+
+.profileHeader{
+    margin-bottom: 20px !important;
+}
+
+.noMargin{
+    margin-top: 0 !important;
+}
+
+#mainProfilePic{
+
+    text-align: center !important;
+    margin-left: -155px !important;
+    margin-top: 12px !important;
+    height: 142px !important;
+    width: 142px !important;
+    border-radius:10px !important;
+    -khtml-border-radius:10px !important;
+    -moz-border-radius:90px !important;
+    -webkit-border-radius:90px !important;
+    
+}
+
+.largePic{
+
+    height: 135px !important;
+    width: 135px !important;
+    border-radius:10px !important;
+    -khtml-border-radius:10px !important;
+    -moz-border-radius:90px !important;
+    -webkit-border-radius:90px !important;
+}
+
+.smallPic{
+
+}
+
+.thumbnail{
+    height: 35px !important;
+    width: 35px !important;
+    max-height: 35px !important; 
+    max-width: 35px !important;
+    left: 10px !important;
+    margin-right: 20px !important;
+    position: absolute !important;
+    top: 5px !important;
+    border-radius:3px !important;
+    -khtml-border-radius:15px !important;
+    -moz-border-radius:20px !important;
+    -webkit-border-radius:15px !important;
+}
+
+.leftPanelThumbnail{
+    height: 40px !important;
+    width: 40px !important;
+    max-height: 40px !important; 
+    max-width: 40px !important;
+    left: 10px !important;
+    margin-right: 20px !important;
+    position: absolute !important;
+    top: 5px !important;
+    border-radius:3px !important;
+    -khtml-border-radius:15px !important;
+    -moz-border-radius:20px !important;
+    -webkit-border-radius:15px !important;
+}
+
+#listCurrentUsers li a{
+    
+    padding-left: 50px !important;
+    border-top-color: #565656 !important;
+    border-bottom-width: 1px !important;
+    border-bottom-color: #1A1A1A !important;
+    background-color: transparent !important;
+
+    /*background-color: #282828 !important;*/
+}
+
+#searchBar li{
+    background-color: #000008 !important;
+    margin-bottom: 10px !important;
+    border: none !important;
+    border-width: 0px !important;
+}
+
+#userProfilePic{
+    height: 180px !important;
+    width: 180px !important;
+    border-radius:10px !important;
+    -khtml-border-radius:10px !important;
+    -moz-border-radius:90px !important;
+    -webkit-border-radius:90px !important;
+}
+
+#panelMenu ul li a{
+    
+    padding-left: 50px !important;
+    border-top-color: #565656 !important;
+    border-bottom-width: 1px !important;
+    border-bottom-color: #1A1A1A !important;
+    background-color: transparent !important;
+    /*background-color: #282828 !important;*/
+}
+
+.panelMenu{
+    background-color: #000008 !important;
+}
+
+.leftPanelHeader{
+    font-family: "Segoe UI Light" !important; 
+    font-weight: normal !important;
+    font-size: 20px !important;
+    margin-left: 10px !important;
+    text-shadow: none !important;
+}
+
+.leftPanel{
+    font-family: "Segoe UI Light" !important; 
+    font-weight: normal !important;
+    font-size: 15px !important;
+    margin-left: 10px !important;
+    text-shadow: none !important;
+}
+
+.rightPanel{
+    font-family: "Segoe UI Light" !important;
+    font-weight: 100 !important;
+    font-size: 18px !important;
+    text-shadow: none !important;
+}
+
+#mainProfileAbout{
+
+    margin-top: 30px !important;
+    margin-bottom: 30px !important;
+    text-align: center;
+    font-family: "Segoe UI Light" !important;
+    font-weight: normal !important;
+    font-style:italic !important;
+    font-size: 16px !important;
+    width:100%; 
+    height:100%;  
+    color: #e4e4e4;
+    text-shadow: none !important;
+}
+
+#userProfileAbout{
+
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+    text-align: center;
+    font-family: "Segoe UI Light" !important;
+    font-weight: normal !important;
+    font-style:italic !important;
+    font-size: 17px !important;
+    width:100%; 
+    height:100%;  
+    color: #e4e4e4;
+    text-shadow: none !important;
+}
+
+.horizontalLine {
+    border-bottom: solid #484848;
+    border-width: 3px !important;
+    position: bottom !important;
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+}
+
+
+.buttonSelected{
+
+    font-family: "Segoe UI Light" !important;
+    font-weight: 100 !important;
+    font-size: 14px !important;
+    border: none !important;
+    border-radius: 0em !important;
+    height: 1.50em!important;
+    width: 6.0em !important;
+    color: #FFFFFF !important;
+    margin-top: 5px !important;
+    box-shadow: none !important;
+}
+
+.buttonReady {
+    background-color: #6D7D9E !important;
+}
+
+.buttonNotReady{
+    background-color: #0A0019 !important;
+}
+
+.buttonNotSelected{
+    font-family: "Segoe UI Light" !important;
+    font-weight: 100 !important;
+    font-size: 14px !important;
+    border: 0.0001em solid #F2F2F2 !important;
+    border-radius: 0em !important;
+    height: 1.50em!important;
+    width: 6.0em !important;
+    background-color: #0A0019 !important;
+    color: #3B3B3B !important;
+    margin-top: 5px !important;
+    text-shadow: none !important;
+}
+
+
+.barProfileHeader{
+    font-family: "Segoe UI Light" !important;
+    font-weight: normal !important;
+    color: #FFFFFF  !important;
+    text-shadow: none !important;
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+    margin-bottom: 5px !important;
+}
+
+.barProfileContent{
+    font-family: "Segoe UI Light" !important;
+    text-shadow: none !important;
+    color: #656565!important;
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+    margin-top: 0px !important;
+}
+
+
+

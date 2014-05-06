@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height,user-scalable=0">
+    
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="frameworks/jQuery_Mobile/css/jquery.mobile-1.4.2.min.css">
+
+    <!-- DO NOT DELETE. FOR DEPLOYMENT -->
+    <script type="text/javascript" src="cordova.js"></script>
+    
+    <script src="js/SocialSharing.js"></script>
+    <script src="frameworks/jQuery_Mobile/js/jquery-1.10.2.min.js"></script>
+    <script src="frameworks/jQuery_Mobile/js/jquery.mobile-1.4.2.min.js"></script>
+    <script src="frameworks/jQuery_Knob/js/jquery.knob.js"></script>
+    <script src="frameworks/FastClick/fastclick.js"></script>
+
+    <script src="js/index.js"></script>
+    <!-- <script type="text/javascript" src="js/indexTest.js"></script>   -->
+    <script type="text/javascript" src="js/sync.js"></script>
+
+</head>    
+
+<body onload="init()"> 
+  
+     <!---------------LOGIN---------------->
+    <div data-role="page" id="pageLogin">
+        <div data-role="header" data-id="main-header" data-position="fixed" data-theme="b" class="headerCss" data-tap-toggle="false">
+            <h1>HOP</h1>
+        </div>
+        <div>
+            <button onclick="testVibrate(); return false;">Vibrate</button>
+        </div>
+        <div>
+             <img id="largeImage" class="largePic">
+        </div>
+        <div data-role="main" id="loginContent"class="ui-content">
+            <form name="frmLogin">
+                <input type="text" name="username" id="txtLoginUsername" value="" data-mini="true" placeholder="Username/Email">
+                <input type="password" name="password" id="txtLoginPassword" placeholder="Password">
+                <button type="button" onClick="login()">Login</button>
+                <div style="text-align:center">
+                    <h5 >Not registered? <a href = "#pageSignUpPart1" >Sign up</a></h5>
+                </div>
+               <!-- <div id="googleMap" style="width:500px;height:380px;">GoogleMap</div> -->
+            </form>
+        </div>
+ 
+        <div data-role="footer" data-theme="a">
+            <h1></h1>
+        </div>         
+    </div>       
+
+
+<!---------------SIGNUP---------------->
+    <div data-role="page" id="pageSignUpPart1" >
+        <div data-role="header" data-id="main-header" data-position="fixed" data-theme="b" class="headerCss" data-tap-toggle="false">
+            <a href="#" class="ui-btn ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-nodisc-icon flat-btn" data-direction="reverse" data-rel="back" onclick="clearSignUp()" >Back</a>
+            <h1>Sign Up</h1>
+        </div>
+        
+        <div data-role="main" class="ui-content" id="areaContent">
+            <form action="index.html" method="get">
+ 
+            <!--    Wrap Inputs in fieldcontain which will sort out borders and padding, can cause layout to break  -->
+
+             <!-- <div data-role="controlgroup" data-type="horizontal" margin-top="20px" style="text-align:center">
+                    <input type="text" name="rfid" value="" data-inline="true" id="txtSignupRFID" data-mini="true" placeholder="RFID"/>
+                    <input type="text" name="uniqueId" value="" data-inline="true" id="txtSignupUID"data-mini="true" disabled="true" placeholder="Unique ID"/>
+                    <br><br>
+                    <label id="labelSignupUsername" style="margin-left:100px"><i>Note:Username</i></label>
+                         </div> -->
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a" >
+                        <input  type="text" data-inline="true" maxlength="10" id="txtSignupRFID" data-mini="true"/>
+                        <input  type="text" data-inline="true" maxlength="4" id="txtSignupUID" data-mini="true"/>
+                </div>
+            </div>  
+            
+            <div data-role="fieldcontain">
+                <a href="#pageSignUpPart2" id="btnSignupContinue" class="ui-btn ui-corner-all" onclick="return rfidFieldsValidated();">Continue</a>
+            </div>
+        </form> 
+        </div>
+        <div data-role="footer" data-theme="a">
+        <h1></h1>
+        </div>
+    </div>
+
+    <div data-role="page" id="pageSignUpPart2" >
+        <div data-role="header" data-id="main-header" data-position="fixed" data-theme="b" class="headerCss" data-tap-toggle="false">
+            <a href="#" class="ui-btn ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-nodisc-icon flat-btn" data-direction="reverse" data-rel="back" onclick="clearSignUp()" >Back</a>
+            <h1>Sign Up</h1>
+        </div>
+        
+        <div data-role="main" class="ui-content" id="areaContent">
+            <form action="index.html" method="get">
+     
+                <!--    Wrap Inputs in fieldcontain which will sort out borders and padding, can cause layout to break  -->
+                <div data-role="fieldcontain">
+                    <label for="userName"> Username: </label>
+                    <input type="text" name="userName" value="" id="txtSignupUsername" onblur="return validateUser(this.value); " data-mini="true" />
+                    <!-- <label id="labelSignupUsername" style="margin-left:100px"><i>Note:Username</i></label> -->
+                </div>  
+
+                 <div data-role="fieldcontain" >
+                    <label for="emailAddress"> Email: </label>
+                    <input type="email" name="emailAddress" value="" id="txtSignupEmail" onblur="return validateEmail(this.value)" data-mini="true"/>
+                </div>  
+     
+                <div data-role="fieldcontain" >
+                    <label for="password"> Password: </label>
+                    <input type="password" name="password" value="" id="txtSignupPassword" onblur="return validatePassword(this.value)" data-mini="true" />
+                </div>  
+       
+                <div data-role="fieldcontain">
+                <button id="btnSigunupSubmit" class="ui-btn ui-corner-all" onclick="return saveUser();" disabled="true">Sign Up</button>
+                </div>
+            </form> 
+        </div>
+        <div data-role="footer" data-theme="a">
+        <h1></h1>
+        </div>
+    </div>
+
+
+    <!---------------HOME---------------->
+    <div data-role="page" id="pageHome">
+        <div data-role="header" data-id="main-header" data-position="fixed" class="headerCss" data-theme="b" data-tap-toggle="false">
+            <h1>HOP</h1>
+            <a href="#panelMenu" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-nodisc-icon flat-btn " onClick="return getUsername();"></a>
+            <a href="#panelCurrentUsers" class="ui-btn ui-icon-user ui-btn-icon-left ui-nodisc-icon ui-corner-all ui-mini ui-btn-icon-notext flat-btn">Users</a>
+        </div>
+
+        <div data-role="main" id="homeContent" class="ui-content">
+            <h2>Welcome to</h2>
+            <h1 id="clubName">Hyve</h1>
+            <h4>Activity List</h4>
+            <ul data-role="listview" id="activityList">
+            </ul>
+            <!-- <div style="position:fixed; bottom: 100px;">
+                <h3>Share:</h3>
+                <div id="socialButtons">
+                     <button id="btnTwitter" onclick="window.plugins.socialsharing.shareViaTwitter(this.value)">Share via Twitter</button>
+
+                    <button id ="btnFacebook" onclick="window.plugins.socialsharing.shareViaFacebook('', null, this.value, function() {console.log('share ok')}, function(errormsg){alert(errormsg)})">Share via Facebook</button>
+                </div>
+            </div> -->
+        </div>
+
+         <div data-role="popup" id="myPopupDialog">
+            <div data-role="header" class="ui-content" style="text-align:center">
+                <h1 id="challengeTitle"></h1>
+            </div>
+
+            <div data-role="main" class="ui-content" style="text-align:center">
+                <p id="challengeContent">[Challenge Details]</p>     
+            </div>
+
+            <div data-role="footer" style="text-align:center">
+                <a href="#minglePlacePopupDialog" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-check ui-btn-icon-left" data-rel="back" onclick="return mingleAccept()" data-transition ='slidedown'>Accept</a>
+                <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-delete ui-btn-icon-left" data-rel="back" onclick="return mingleReject()">Reject</a>
+            </div>
+        </div>
+
+
+        <div data-role="popup" id="minglePlacePopupDialog">
+            <div data-role="header" class="ui-content" style="text-align:center">
+                <h1 id="challengeTitle">Accepted!</h1>
+            </div>
+
+            <div data-role="main" class="ui-content" style="text-align:center">
+                <p id="challengeContent">[Challenge Details]</p>                
+            </div>
+        </div>
+
+        <!-------------LEFT PANEL-------------->
+        <div data-role="panel" id="panelMenu" class="panelMenu" data-theme="b" data-position="left" data-position-fixed="true" data-display="reveal">
+           
+            <ul data-role="listview">
+
+                <li>
+                    <a href="#pageMainProfile" id="panelProfile" class="leftPanelHeader ui-btn" onClick="return changePageEvent('MainProfile');">Profile
+                    </a>
+                    <img id="panelProfilePicThumb" src="" class="leftPanelThumbnail ui-li-icon">    
+                </li>
+                <li>
+                    <a href="#pageMainProfile" style="margin-top:30px !important;" data-role="button" class="leftPanel flat-btn"  onClick="window.plugins.socialsharing.shareViaTwitter(this.value)" data-shadow="false" data-iconpos="left" data-icon="custom">Share via Twitter</a>   
+                </li>
+                <li>
+                    <a href="#pageMainProfile" data-role="button" class="leftPanel flat-btn" onClick="window.plugins.socialsharing.shareViaFacebook('', null, this.value, function() {console.log('share ok')}, function(errormsg){alert(errormsg)})" data-shadow="false" data-iconpos="left" data-icon="custom">Share via Facebook</a>   
+                </li>
+                <li>
+                    <a href="#pageAccountSettings" data-role="button" class="leftPanel flat-btn" data-shadow="false" data-iconpos="left" data-icon="custom" onclick="return changePageEvent('AccountSettings')">Settings</a>
+                </li>
+                <li>
+                    <a id="leaveBar" data-role="button" class="leftPanel flat-btn" data-shadow="false" data-iconpos="left" data-icon="custom" onclick="return leave()">Leave Bar</a>
+                </li>
+                <li>
+                    <a href="#pageLogin" data-role="button" class="leftPanel flat-btn" data-shadow="false" data-iconpos="left" data-icon="custom" onclick="return logout();">Sign Out</a>
+                </li>
+            </ul>
+
+        </div>
+
+         <!-------------RIGHT PANEL-------------->
+        <div data-role="panel" id="panelCurrentUsers" class="panelMenu" data-theme="b" data-position="right" data-position-fixed="true" data-display="reveal">
+
+                <ul data-role="listview" id="searchBar">
+                    <li><input type="search" name="search-mini" id="homeSearch" value="" data-mini="true" /></li>
+                </ul>
+
+                <ul id="listCurrentUsers" data-role="listview"/>
+        </div>
+    
+        
+        <div data-role="footer" data-id="main-footer" data-position="fixed" data-theme="a" class="footerCss" data-tap-toggle="false">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#pageHome"       data-icon="home"   data-transition="slide" data-direction=""  name="Home"        id="btnHome"       onClick="return changePageEvent('Home');" class="ui-nodisc-icon homeBtnCss selectedBtnCss">Home</a></li>
+                    <li><a href="#pageSearch"     data-icon="search" data-transition="slide" data-direction=""  name="Search"      id="btnSearch"     onClick="return changePageEvent('Search');" class="ui-nodisc-icon searchBtnCss">Search</a></li>
+                    <li><a href="#pageMainProfile"    data-icon="user"   data-transition="slide" data-direction=""  name="Profile"     id="btnProfile"    onClick="return changePageEvent('MainProfile');" class="ui-nodisc-icon profileBtnCss">Profile</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--------------SEARCH--------------->
+    <!--AREA LIST-->
+    <div data-role="page" id="pageSearch" >
+        <div data-role="header" data-id="main-header" data-position="fixed" data-theme="b" class="headerCss" data-tap-toggle="false">
+            <h1>HOP</h1>
+            <a href="#" class="ui-btn ui-icon-search ui-btn-icon-right ui-btn-icon-notext ui-nodisc-icon ui-corner-all ui-btn-right flat-btn">Search Bar</a>
+        </div>
+        
+        <div data-role="main" id="searchContent">
+            <div class="ui-grid-solo">
+                <div class="ui-block-a">
+                    <h4 id="searchTopText">Select a location:</h4>
+                </div>
+            </div>
+            <ul data-role="listview" id="listArea"/>
+        </div>
+        
+        <div data-role="footer" data-id="main-footer" data-position="fixed" data-theme="a" class="footerCss" data-tap-toggle="false">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#pageHome"       data-icon="home"   data-transition="slide" data-direction="reverse"  name="Home"        id="btnHome"       onClick="return changePageEvent('Home');" class="ui-nodisc-icon homeBtnCss">Home</a></li>
+                    <li><a href="#pageSearch"     data-icon="search" data-transition="slide" data-direction=""         name="Search"      id="btnSearch"     onClick="return changePageEvent('Search');" class="ui-nodisc-icon searchBtnCss selectedBtnCss">Search</a></li>
+                    <li><a href="#pageMainProfile"    data-icon="user"   data-transition="slide" data-direction=""         name="Profile"     id="btnProfile"    onClick="return changePageEvent('MainProfile');" class="ui-nodisc-icon profileBtnCss">Profile</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!--BAR LIST-->
+    <div data-role="page" id="pageBarList" >
+        <div data-role="header" data-id="main-header" data-position="fixed" data-theme="b" class="headerCss" data-tap-toggle="false">
+            <a href="#" class="ui-btn ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-nodisc-icon flat-btn" data-direction="reverse" onClick="return changePageEvent('Search');" data-rel="back" >Back</a>
+            <h1>HOP</h1>
+            <a href="#" class="ui-btn ui-icon-search ui-btn-icon-right ui-btn-icon-notext ui-nodisc-icon flat-btn">Search Bar</a>
+        </div>
+        
+        <div data-role="main" class="ui-content" id="areaContent">
+            <h1 id="areaName"></h1>
+            <ul data-role="listview" id="listBar"/>
+        </div>
+        
+        <div data-role="footer" data-id="main-footer" data-position="fixed" data-theme="a" class="footerCss" data-tap-toggle="false">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#pageHome"       data-icon="home"   data-transition="slide" data-direction="reverse"  name="Home"        id="btnHome"       onClick="return changePageEvent('Home');" class="ui-nodisc-icon homeBtnCss">Home</a></li>
+                    <li><a href="#pageSearch"     data-icon="search" data-transition="slide" data-direction=""         name="Search"      id="btnSearch"     onClick="return changePageEvent('Search');" class="ui-nodisc-icon searchBtnCss selectedBtnCss">Search</a></li>
+                    <li><a href="#pageMainProfile"    data-icon="user"   data-transition="slide" data-direction=""         name="Profile"     id="btnProfile"    onClick="return changePageEvent('MainProfile');" class="ui-nodisc-icon profileBtnCss">Profile</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!--BAR PROFILE-->
+    <div data-role="page" id="pageBarProfile" >
+        <div data-role="header" data-id="main-header" data-position="fixed" data-theme="b" class="headerCss" data-tap-toggle="false">
+            <a href="#" class="ui-btn ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-nodisc-icon flat-btn" data-direction="reverse" onClick="return changePageEvent('BarList');" data-rel="back">Back</a>
+            <h2 id="barProfileName"></h2>
+            <a href="#" class="ui-btn ui-icon-search ui-btn-icon-right ui-btn-icon-notext ui-nodisc-icon flat-btn">Search Bar</a>
+        </div>
+        
+        <div data-role="main">
+            <div id="barProfilePic" style="margin-top:0px !important; margin-bottom:0x !important;">
+                <br><br>
+               <div data-role="controlgroup" data-type="horizontal" style="text-align:left;margin-top:80px !important;margin-bottom:0px !important;">
+                    <button id="barProfileMaleCount" data-inline="true" class="ui-btn ">Male</button>
+                    <button id="barProfileFemaleCount" data-inline="true" class="ui-btn ">Female</button>
+                    <!-- <label id="labelSignupUsername" style="margin-left:100px"><i>Note:Username</i></label> -->
+                </div>     
+            </div>
+        </div>
+
+        <div data-role="main" class="barInfo">
+            <br>
+            <h3 class="barProfileHeader" style="margin-top:0px !important; margin-bottom:15px !important;">Bar Profile</h3>
+            <h4 id="barProfileAddress" class="barProfileHeader"></h4>
+            <h5 id="barProfileDesc" class="barProfileContent"></h5>
+            <h4 class="barProfileHeader" >CATEGORY</h4>
+            <h6 id="barProfileCategory" class="barProfileContent"></h6>
+            <h4 class="barProfileHeader">DAYS OPEN</h4>
+            <h6 id="barProfileDaysOpen" class="barProfileContent"></h6>
+            <h4 class="barProfileHeader" >BUDGET</h4>
+            <h6 id="barProfileBudget" class="barProfileContent"></h6>
+            <h4 class="barProfileHeader" >ENTRANCE FEE</h4>
+            <h6 id="barProfileEntrance" class="barProfileContent"></h6>
+            <h4 class="barProfileHeader" >POPULAR FOR</h4>
+            <h6 id="barProfilePopular" class="barProfileContent"></h6>     
+            <h4 class="barProfileHeader">CONTACT INFORMATION</h4>
+            <h6 id="barProfileContact" class="barProfileContent"></h6>
+            <h4 class="barProfileHeader">EVENT FOR THE NIGHT </h4>
+
+        </div>    
+        
+        <div data-role="footer" data-id="main-footer" data-position="fixed" data-theme="a" class="footerCss" data-tap-toggle="false">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#pageHome"       data-icon="home"   data-transition="slide" data-direction="reverse"  name="Home"        id="btnHome"       onClick="return changePageEvent('Home');" class="ui-nodisc-icon homeBtnCss">Home</a></li>
+                    <li><a href="#pageSearch"     data-icon="search" data-transition="slide" data-direction=""         name="Search"      id="btnSearch"     onClick="return changePageEvent('Search');" class="ui-nodisc-icon searchBtnCss selectedBtnCss">Search</a></li>
+                    <li><a href="#pageMainProfile"    data-icon="user"   data-transition="slide" data-direction=""         name="Profile"     id="btnProfile"    onClick="return changePageEvent('MainProfile');" class="ui-nodisc-icon profileBtnCss">Profile</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    
+    <!------------- MAIN PROFILE-------------->
+    <div data-role="page" id="pageMainProfile">
+        <div data-role="header" data-id="main-header" data-position="fixed" data-theme="b" class="headerCss" data-tap-toggle="false">
+            <h1>Profile</h1>
+            <a href="#pageAccountSettings" class="ui-btn ui-icon-gear ui-nodisc-icon ui-mini ui-btn-icon-notext flat-btn ui-btn-right" onclick=" return changePageEvent('AccountSettings');"></a>
+        </div>
+        
+        <div data-role="main" id="mainProfileContent">
+                <br><br><br>
+                <div class="ui-grid-solo ui-responsive profileHeader">
+
+                    <img id="mainProfilePic" class="dial" src="resources/profile_pictures/1.jpg"      onclick="getPhoto(); return false;"> 
+                    <h3 id="mainProfileUserFullName" >[insert name here]</h3>
+                    <h3 id="mainProfileLevel"></h3>
+
+                </div>
+
+                <div class="ui-grid-solo ui-responsive" style="background-color:#080014">
+                    <h5>-PROFILE INFO-</h5>
+                    <h2 id="mainProfileUserTitle" style="margin-bottom:0px !important;" >[insert title here]</h2>
+                    <h5 id="mainProfileAbout" style="margin-top:0px !important;">"The universe always conspires to make it happen"</h5>
+                    <h4 id="mainProfileStamina" style="margin-bottom:5px !important;" ></h4>
+                    <div data-role="controlgroup" data-type="horizontal" margin-top="20px" style="text-align:center">
+                          <button id="btnMingleNo" data-inline="true" class="ui-btn" onclick="toggleStatus(this.id)">NOT READY</button>
+                          <button id="btnMingleYes" data-inline="true" class="ui-btn" onclick="toggleStatus(this.id)">READY</button>
+                    </div>
+ 
+                    <h4 id="mainProfileClass"></h4> 
+                   
+                  
+
+                </div>
+
+                <!-- <h6  id="mainProfileExperienceData"></h6>   -->
+
+             
+
+               <!--  <div style="display:inline;width:100px;height:100px;">
+                    <canvas width="100px" height="100px">
+                    <input class="dial" data-width="100" data-displayinput="false" value="35" style="display: none; width: 0px; visibility: hidden;">
+                </div>
+ -->
+        </div>
+
+
+        <div data-role="panel" id="profilePanel" data-theme="b" data-position="right" data-position-fixed="true" data-display="reveal">
+           
+            <ul data-role="listview">
+                <li>
+                    <a href="#pageAccountSettings" id="panelEditProfile" class="leftPanel flat-btn" >Edit Profile</a>
+                </li>
+                <li>
+                    <a href="#" id="panelAboutMe" class="leftPanel flat-btn">About Me</a>
+                </li>
+            </ul>
+
+        </div>
+        
+        <div data-role="footer" data-id="main-footer" data-position="fixed" data-theme="a" class="footerCss" data-tap-toggle="false">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#pageHome"       data-icon="home"   data-transition="slide" data-direction="reverse"  name="Home"        id="btnHome"       onClick="return changePageEvent('Home');" class="ui-nodisc-icon homeBtnCss">Home</a></li>
+                    <li><a href="#pageSearch"     data-icon="search" data-transition="slide" data-direction="reverse"  name="Search"      id="btnSearch"     onClick="return changePageEvent('Search');" class="ui-nodisc-icon searchBtnCss">Search</a></li>
+                    <li><a href="#pageMainProfile"    data-icon="user"   data-transition="slide" data-direction=""         name="Profile"     id="btnProfile"    onClick="return changePageEvent('MainProfile');" class="ui-nodisc-icon profileBtnCss selectedBtnCss">Profile</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+      <!------------- USER PROFILE-------------->
+    <div data-role="page" id="pageUserProfile">
+        <div data-role="header" data-id="main-header" data-position="fixed" data-theme="b" class="headerCss" data-tap-toggle="false">
+            <a href="#" class="ui-btn ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-nodisc-icon flat-btn" data-direction="reverse" onClick="return changePageEvent('Home');" data-rel="back" >Back</a>
+            <h1>HOP</h1>
+        </div>
+        
+         <div data-role="main" id="userProfileContent">
+            
+                <br>
+                <br>
+                <img id="userProfilePic" src="resources/sampleProfilePic.png" height="100" width="100">
+                <div class="ui-grid-solo ui-responsive">
+                    <h1 id="userProfileUserFullName">[insert name here]</h1>
+                    <h4 id="userProfileClass"></h4> 
+                    <div class="horizontalLine"></div>
+                    <h3 id="userProfileAbout" >"The universe always conspires to make it happen"</h3>
+                    <div class="horizontalLine"></div>
+                    <!-- <h3 id="userProfileUserLevel"></h4> -->
+                    <h3 id="userProfileUserTitle">[insert title here]</h3>
+                </div>
+
+                <div class="ui-grid-solo ui-responsive">
+                    
+                    <div id="mingleButton">
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <!---------------ACCOUNT SETTINGS---------------->
+    <div data-role="page" id="pageAccountSettings" >
+        <div data-role="header" data-id="main-header" data-position="fixed" data-theme="b" class="headerCss" data-tap-toggle="false">
+            <a href="#" class="ui-btn ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-nodisc-icon flat-btn" data-direction="reverse" data-rel="back" onclick="">Back</a>
+            <h1>HOP</h1>
+        </div>
+        
+        <div data-role="main" class="ui-content" id="settingsContent">
+            <form action="index.html" method="get">
+     
+            <h1>Account Settings</h1>
+            <!--    Wrap Inputs in fieldcontain which will sort out borders and padding, can cause layout to break  -->
+     
+            <h2>Account Information</h2>           
+            <div data-role="fieldcontain">
+                <label for="userName"> Username: </label>
+                <input type="text" name="userName" value="" id="txtSettingsUsername" placeholder="Username" data-mini="true" />
+                <label for="labelUsername"></label>
+                <h5 name="labelUsername"><i>Username must be at least 6 characters</i></h5>    
+                <!-- <label id="labelSignupUsername" style="margin-left:100px"><i>Note:Username</i></label> -->
+            </div> 
+
+            <div data-role="fieldcontain">
+              <label for="userAbout"> About: </label>
+                <input type="text" name="userAbout" value="" id="txtSettingsAbout" placeholder="What are you up to today?" data-mini="true" />
+            </div>  
+     
+             <div data-role="fieldcontain">
+                <label for="changeRfidField"> RFID: </label>
+                <fieldset data-role="controlgroup" data-type="vertical" id="changeRfidField">
+                    <input type="number" name="rfid" value="" id="txtSettingsRFID" onblur="return validateRFID(this.value); " data-mini="true" disabled="true" />  
+                    <a href="#changeRFIDPopupDialog" data-rel="popup" data-position-to="window" data-transition="fade" class="ui-btn ui-corner-all ui-icon-edit ui-shadow ui-btn-inline ui-btn-icon-left " onClick="return settings_clearRFID();">Change RFID</a>
+                </fieldset>
+            </div>  
+     
+            <h3>Personal Information</h3>           
+            <div data-role="fieldcontain" >
+                <label for="emailAddress"> Email: </label>
+                <input type="email" name="emailAddress" value="" id="txtSettingsEmail" onblur="return validateEmail(this.value)" data-mini="true"/>
+                <label for="labelEmail"></label>
+                <h5 name="labelEmail"><i>Email must be in the correct format</i></h5>
+              
+            </div>  
+     
+            <div data-role="fieldcontain">
+            <label for="passwordField">Password</label>
+                <fieldset data-role="controlgroup" data-type="vertical" id="passwordField">
+                    <input type="password" id="txtSettingsPass" width="100%" disabled="true">  
+                    <fieldset data-role="controlgroup" data-type="horizontal">
+                        <a href="#" class="ui-btn ui-corner-all ui-icon-eye ui-btn-icon-left ui-shadow ui-btn-inline" onClick="return settings_showPass();">Show</a>
+                        <a href="#changePasswordPopupDialog" data-rel="popup" data-position-to="window" data-transition="fade" class="ui-btn ui-corner-all ui-icon-edit ui-btn-icon-left ui-shadow ui-btn-inline" onClick="return settings_clearPass();">Change</a>
+                     </fieldset>
+                </fieldset>
+            </div>  
+     
+            <div data-role="fieldcontain" >
+                <label for="gender"> Gender: </label>
+                <select id="txtSettingsGender" name="gender" data-mini="true">
+                    <option value="male"> Male </option>
+                    <option value="female"> Female </option>
+                </select>
+            </div>
+     
+     
+            <h2>Notifications</h2>
+     
+            <div class="ui-field-contain">
+                <fieldset data-role="controlgroup" data-type="horizontal">
+                    <input type="checkbox" name="filterMale" id="filterMale" class="custom" onclick="return settings_filterCheckbox(this.name);"/>
+                    <label for="filterMale"> Male </label>
+                    <input type="checkbox" name="filterFemale" id="filterFemale" class="custom"onclick="return settings_filterCheckbox(this.name);"/>
+                    <label for="filterFemale">Female</label>
+                </fieldset>
+            </div>
+     
+            <label><input type="checkbox" name="vibrate" id="vibrate" onclick="return settings_filterCheckbox(this.name) "> Vibrate on Notification </label>        
+            <label><input type="checkbox" name="sound" id="sound" onclick="return settings_filterCheckbox(this.name)"> Sound on Notification </label>
+            <h3><br></h3>
+            
+            <div>
+                <a href="#pageHome" class="ui-btn ui-corner-all ui-icon-check ui-btn-icon-left " id="btnSettingsSave"  onclick="return settings_editUser();">Save</a>
+            </div>
+     
+            <div data-role="popup" id="changeRFIDPopupDialog">
+                <div data-role="header" class="ui-content" style="text-align:center;" >
+                    <h1>CHANGE RFID</h1>
+                </div>
+     
+                <div data-role="main" class="ui-content" style="text-align:left">
+                    <div>
+                        <h3>Verification:</h3>
+                        <input type="password" placeholder="Password" id="txtRFIDChangePass"/>
+                        <h3>New RFID Number:</h3>
+                        <input type="text" placeholder="RFID #" id="txtNewRFID" maxlength="10" />
+                        <h3>Unique Key:</h3>
+                        <input type="text" placeholder="Unique Key" id="txtNewUID" maxlength="4" />
+                        <h3><br></h3>
+                        <div class="ui-grid-a">
+                            <div class="ui-block-a">
+                                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-icon-back ui-btn-icon-left ui-shadow" data-mini="true">Back</a>
+                            </div>
+                            <div class="ui-block-b">
+                                <a href="#pageHome" class="ui-btn ui-corner-all ui-icon-check ui-btn-icon-left ui-shadow" id="btnValidateNewRFID" onClick="return settings_changeRFID();" data-mini="true">Save</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+     
+             <div data-role="popup" id="changePasswordPopupDialog">
+                <div data-role="header" class="ui-content" style="text-align:center;" >
+                    <h1>CHANGE PASSWORD</h1>
+                </div>
+     
+                <div data-role="main" class="ui-content" style="text-align:left">
+                    <div>
+                        <h3>Current Password:</h3>
+                        <input type="password" id="txtPasswordChangePass"/>
+                        <h3>New Password:</h3>
+                        <input type="password" id="txtPasswordNewPass"/>
+                        <h3>Confirm New Password:</h3>
+                        <input type="password" id="txtPasswordConfirmPass"/>
+                        <h3><br></h3>
+                        <div class="ui-grid-a">
+                            <div class="ui-block-a">
+                                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-icon-back ui-btn-icon-left ui-shadow" data-mini="true">Back</a>
+                            </div>
+                            <div class="ui-block-b">
+                                <a href="#pageHome" class="ui-btn ui-corner-all ui-icon-check ui-btn-icon-left ui-shadow" id="btnValidateNewPass" data-mini="true" onClick="return settings_changePass();">Save</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form> 
+        </div>
+    </div>
+</body>
+
+
+
+</html>
