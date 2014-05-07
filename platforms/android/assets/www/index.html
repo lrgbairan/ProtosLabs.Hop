@@ -29,12 +29,6 @@
         <div data-role="header" data-id="main-header" data-position="fixed" data-theme="b" class="headerCss" data-tap-toggle="false">
             <h1>HOP</h1>
         </div>
-        <div>
-            <button onclick="testVibrate(); return false;">Vibrate</button>
-        </div>
-        <div>
-             <img id="largeImage" class="largePic">
-        </div>
         <div data-role="main" id="loginContent"class="ui-content">
             <form name="frmLogin">
                 <input type="text" name="username" id="txtLoginUsername" value="" data-mini="true" placeholder="Username/Email">
@@ -236,11 +230,6 @@
         </div>
         
         <div data-role="main" id="searchContent">
-            <div class="ui-grid-solo">
-                <div class="ui-block-a">
-                    <h4 id="searchTopText">Select a location:</h4>
-                </div>
-            </div>
             <ul data-role="listview" id="listArea"/>
         </div>
         
@@ -352,27 +341,14 @@
                     <h5>-PROFILE INFO-</h5>
                     <h2 id="mainProfileUserTitle" style="margin-bottom:0px !important;" >[insert title here]</h2>
                     <h5 id="mainProfileAbout" style="margin-top:0px !important;">"The universe always conspires to make it happen"</h5>
-                    <h4 id="mainProfileStamina" style="margin-bottom:5px !important;" ></h4>
-                    <div data-role="controlgroup" data-type="horizontal" margin-top="20px" style="text-align:center">
+                    <h4 id="mainProfileClass" style="margin-bottom:0px !important; margin-top:5px !important;"></h4> 
+                    <div data-role="controlgroup" data-type="horizontal" style="margin-top:10px !important;"style="text-align:center">
                           <button id="btnMingleNo" data-inline="true" class="ui-btn" onclick="toggleStatus(this.id)">NOT READY</button>
                           <button id="btnMingleYes" data-inline="true" class="ui-btn" onclick="toggleStatus(this.id)">READY</button>
                     </div>
- 
-                    <h4 id="mainProfileClass"></h4> 
-                   
-                  
-
                 </div>
 
-                <!-- <h6  id="mainProfileExperienceData"></h6>   -->
-
-             
-
-               <!--  <div style="display:inline;width:100px;height:100px;">
-                    <canvas width="100px" height="100px">
-                    <input class="dial" data-width="100" data-displayinput="false" value="35" style="display: none; width: 0px; visibility: hidden;">
-                </div>
- -->
+                <h6 style="margin-top:10px !important;">ProtosLabs Inc.</h6>
         </div>
 
 
@@ -510,7 +486,7 @@
             <h3><br></h3>
             
             <div>
-                <a href="#pageHome" class="ui-btn ui-corner-all ui-icon-check ui-btn-icon-left " id="btnSettingsSave"  onclick="return settings_editUser();">Save</a>
+                <a href="#pageHome" class="ui-btn ui-corner-all" id="btnSettingsSave"  onclick="return settings_editUser();">Save</a>
             </div>
      
             <div data-role="popup" id="changeRFIDPopupDialog">

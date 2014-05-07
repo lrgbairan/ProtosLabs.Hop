@@ -47,7 +47,7 @@ function createTables(tx) {
     sql =
         "CREATE TABLE IF NOT EXISTS level ( " +
         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-        "aliasName VARCHAR(128), expNeeded INTEGER, maxStamina INTEGER)";
+        "aliasName VARCHAR(128), expNeeded INTEGER)";
     tx.executeSql(sql);
 
     sql =
@@ -76,7 +76,7 @@ function createTables(tx) {
         "CREATE TABLE IF NOT EXISTS userInfo ( " +
         "id VARCHAR(20) PRIMARY KEY, username VARCHAR(128), password VARCHAR(128), " +
         "level INTEGER, title VARCHAR(128), currentExp INTEGER, status_id INTEGER, " +
-        "gender VARCHAR(50), email VARCHAR(128), stamina INTEGER, bar_id INTEGER, " +
+        "gender VARCHAR(50), email VARCHAR(128), bar_id INTEGER, " +
         "nextRefresh DATE, image VARCHAR(20), lastUpdate TIMESTAMP, deleted INTEGER)";
     tx.executeSql(sql);
 
@@ -113,7 +113,7 @@ function createTablesTest(tx) {
         "CREATE TABLE IF NOT EXISTS userInfo ( " +
         "id INTEGER PRIMARY KEY AUTOINCREMENT, rfid VARCHAR(20), username VARCHAR(128), password VARCHAR(128), " +
         "class VARCHAR(50), level INTEGER, title VARCHAR(200), currentExp INTEGER, expNeeded INTEGER, status_id INTEGER, about VARCHAR(200), " +
-        "gender VARCHAR(50), email VARCHAR(128), stamina INTEGER, bar_id INTEGER, " +
+        "gender VARCHAR(50), email VARCHAR(128), bar_id INTEGER, " +
         "image VARCHAR(5000), lastUpdate TIMESTAMP, deleted INTEGER)";
     tx.executeSql(sql);
 
@@ -140,12 +140,14 @@ function populateDBTest(tx) {
     tx.executeSql("INSERT into area(name) values('Taguig')");
     tx.executeSql("INSERT into area(name) values('Makati')");
     tx.executeSql("INSERT into area(name) values('Quezon City')");
+    tx.executeSql("INSERT into area(name) values('Tomas Morato')");
+    tx.executeSql("INSERT into area(name) values('Pasig')");
 
     //FOR BAR INFO
     tx.executeSql("INSERT into userInfo(rfid,username,password,class,level,title,currentExp,expNeeded,status_id,about,gender,email, " +
-        "stamina, bar_id, image, lastUpdate,deleted) values('0000000001','superkidluigi','a','Admin',1,'Novice Chode',50,100,1,'Hello','Male','superkidluigi@gmail.com',80,1,'1.jpg','2014-04-30 00:48:35',0)");
+        "bar_id, image, lastUpdate,deleted) values('0000000001','superkidluigi','a','Admin',1,'Novice Chode',50,100,1,'Hello','Male','superkidluigi@gmail.com',1,'1.jpg','2014-04-30 00:48:35',0)");
     tx.executeSql("INSERT into userInfo(id,rfid,username,password,class,level,title,currentExp,expNeeded,status_id,about,gender,email, " +
-        "stamina, bar_id, image, lastUpdate, deleted) values(2,'0000000002','lrgbairan','b','Promoter',2,'Admiral Glasser',88,200,1,'World','Male','lrgbairan@gmail.com',90,1,'3.jpg','2014-04-30 00:48:35',0)");
+        "bar_id, image, lastUpdate, deleted) values(2,'0000000002','lrgbairan','b','Promoter',2,'Admiral Glasser',88,200,1,'World','Male','lrgbairan@gmail.com',1,'3.jpg','2014-04-30 00:48:35',0)");
 
     //FOR USER INFO
     tx.executeSql("INSERT into bars(name, area_id, category, image, address, description, " +
@@ -186,8 +188,8 @@ function populateDB(tx) {
                 var date = convertToTimestamp(data.lastUpdate);
                 db.transaction(function(tx) {
                     tx.executeSql("INSERT into userInfo(rfid,username,password,class,level,title,currentExp,expNeeded " +
-                        "status_id,about,gender,email,stamina, bar_id, image, lastUpdate,deleted) values(?,?,?,?,?,?,?,?, " +
-                        "?,?,?,?,?,?,?,?,?)", [data.rfid, data.username, data.password, data.class, data.level, data.title, data.currentExp, data.expNeeded, data.status_id, data.about, data.gender, data.email, data.stamina, data.bar_id, data.image, date, data.deleted]);
+                        "status_id,about,gender,email,bar_id, image, lastUpdate,deleted) values(?,?,?,?,?,?,?, " +
+                        "?,?,?,?,?,?,?,?,?)", [data.rfid, data.username, data.password, data.class, data.level, data.title, data.currentExp, data.expNeeded, data.status_id, data.about, data.gender, data.email, data.bar_id, data.image, date, data.deleted]);
                 });
             });
         });
@@ -255,8 +257,8 @@ function syncDB() {
                                         console.log('data');
                                         if (data.deleted === '0') {
                                             console.log("updating " + data.username + " " + data.lastUpdate);
-                                            tx.executeSql("UPDATE userInfo set rfid=?, username=?, password=?, class=?, level=?, title=?, currentExp=?, expNeeded=?, status_id=?, about=?,gender=?,email=?,stamina=?, bar_id=?,image=?, lastUpdate=?, deleted=? WHERE id=?", [data.rfid, data.username, data.password, data.class, data.level, data.title, data.currentExp, data.expNeeded,
-                                                data.status_id, data.about, data.gender, data.email, data.stamina, data.bar_id, data.image, data.lastUpdate, data.deleted, data.id
+                                            tx.executeSql("UPDATE userInfo set rfid=?, username=?, password=?, class=?, level=?, title=?, currentExp=?, expNeeded=?, status_id=?, about=?,gender=?,email=?, bar_id=?,image=?, lastUpdate=?, deleted=? WHERE id=?", [data.rfid, data.username, data.password, data.class, data.level, data.title, data.currentExp, data.expNeeded,
+                                                data.status_id, data.about, data.gender, data.email, data.bar_id, data.image, data.lastUpdate, data.deleted, data.id
                                             ]);
                                         } else {
                                             console.log("updating " + data.username + " " + data.lastUpdate);
@@ -268,8 +270,8 @@ function syncDB() {
                                             var date = convertToTimestamp(data.lastUpdate);
                                             console.log("inserting " + data.username + " " + data.lastUpdate);
                                             tx.executeSql("INSERT into userInfo(rfid,username,password,class,level,title,currentExp,expNeeded " +
-                                                "status_id,about,gender,email,stamina, bar_id, image, lastUpdate,deleted) values(?,?,?,?,?,?,?,?, " +
-                                                "?,?,?,?,?,?,?,?,?)", [data.rfid, data.username, data.password, data.class, data.level, data.title, data.currentExp, data.expNeeded, data.status_id, data.about, data.gender, data.email, data.stamina, data.bar_id, data.image, date, data.deleted]);
+                                                "status_id,about,gender,email, bar_id, image, lastUpdate,deleted) values(?,?,?,?,?,?,?,?, " +
+                                                "?,?,?,?,?,?,?,?)", [data.rfid, data.username, data.password, data.class, data.level, data.title, data.currentExp, data.expNeeded, data.status_id, data.about, data.gender, data.email, data.bar_id, data.image, date, data.deleted]);
                                         }
                                     }
                                 });

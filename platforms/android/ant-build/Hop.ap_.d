@@ -96,11 +96,11 @@ C:\wamp\www\ProtosLabs\ProtosLabs.Hop\platforms\android\assets\www\resources\fb_
 C:\wamp\www\ProtosLabs\ProtosLabs.Hop\platforms\android\assets\www\resources\profile_pictures \
 C:\wamp\www\ProtosLabs\ProtosLabs.Hop\platforms\android\assets\www\resources\sampleProfilePic.png \
 C:\wamp\www\ProtosLabs\ProtosLabs.Hop\platforms\android\assets\www\resources\twitter_btn.png \
-C:\wamp\www\ProtosLabs\ProtosLabs.Hop\platforms\android\assets\www\resources\areas\bgc_bg.jpg \
-C:\wamp\www\ProtosLabs\ProtosLabs.Hop\platforms\android\assets\www\resources\areas\makati_bg.jpg \
-C:\wamp\www\ProtosLabs\ProtosLabs.Hop\platforms\android\assets\www\resources\areas\malate_bg.jpg \
-C:\wamp\www\ProtosLabs\ProtosLabs.Hop\platforms\android\assets\www\resources\areas\pasay_bg.jpg \
-C:\wamp\www\ProtosLabs\ProtosLabs.Hop\platforms\android\assets\www\resources\areas\qc_bg.jpg \
+C:\wamp\www\ProtosLabs\ProtosLabs.Hop\platforms\android\assets\www\resources\areas\Makati.jpg \
+C:\wamp\www\ProtosLabs\ProtosLabs.Hop\platforms\android\assets\www\resources\areas\Pasig.jpg \
+C:\wamp\www\ProtosLabs\ProtosLabs.Hop\platforms\android\assets\www\resources\areas\Qc.jpg \
+C:\wamp\www\ProtosLabs\ProtosLabs.Hop\platforms\android\assets\www\resources\areas\Taguig.jpg \
+C:\wamp\www\ProtosLabs\ProtosLabs.Hop\platforms\android\assets\www\resources\areas\TomasMorato.jpg \
 C:\wamp\www\ProtosLabs\ProtosLabs.Hop\platforms\android\assets\www\resources\barprofile_pictures\imperial.jpg \
 C:\wamp\www\ProtosLabs\ProtosLabs.Hop\platforms\android\assets\www\resources\profile_pictures\1.jpg \
 C:\wamp\www\ProtosLabs\ProtosLabs.Hop\platforms\android\assets\www\resources\profile_pictures\11.jpg \
