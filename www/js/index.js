@@ -268,6 +268,8 @@ function storeUserData(data) {
     currentUserID = data.id;
     userStamina = data.stamina;
     userImage = data.image;
+
+    settings_checkFilter();
 }
 
 function refreshStamina() {
@@ -376,7 +378,10 @@ function clearList(elementId) {
 
 function getCurrentUsers() {
     if (clubCurrentId != '0') {
-        $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/users?bar=' + clubCurrentId,
+
+        var filterUsers = localStorage.getItem("filterHop");
+        alert(filterUsers);
+        $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/users?bar=' + clubCurrentId + '&gender=' + filterUsers,
             function(jsonData) {
                 if (jsonData.flag === 'true') {
                     $.each(jsonData.users, function(i, data) {
@@ -705,69 +710,71 @@ function clearButton(elementId) {
 
 function getProfileInfo(id) {
 
-    if (navigator.network.connection.type !== "none") {
-        $.getJSON("http://localhost/ProtosLabs/HopData/index.php/hop/searchprofile?id=" + id,
-            function(jsonData) {
-                if (jsonData.error == 0) {
-                    experience = jsonData.data[0].currentExp;
-                    nextLevel = jsonData.data[0].nextLevel;
-                    expBarValue = (experience / nextLevel) * 100;
-                    userStatus = jsonData.data[0].status_id;
-                    userFullName = jsonData.data[0].username;
-                    userTitle = jsonData.data[0].title;
-                    userLevel = jsonData.data[0].level;
-                    userImage = jsonData.data[0].image;
-                    userEmail = jsonData.data[0].email;
-                    userGender = jsonData.data[0].gender;
-                    userRFID = jsonData.data[0].RFID;
-                    userPass = jsonData.data[0].password;
-                    userAbout = jsonData.data[0].about;
-                    userClass = jsonData.data[0].class;
+    //Comment navigator if working through localhost
 
-                    profilePicDirectory = "/ProtosLabs/ProtosLabs.Hop/www/resources/profile_pictures/";
+    //  if (navigator.network.connection.type !== "none") {
+    $.getJSON("http://localhost/ProtosLabs/HopData/index.php/hop/searchprofile?id=" + id,
+        function(jsonData) {
+            if (jsonData.error == 0) {
+                experience = jsonData.data[0].currentExp;
+                nextLevel = jsonData.data[0].nextLevel;
+                expBarValue = (experience / nextLevel) * 100;
+                userStatus = jsonData.data[0].status_id;
+                userFullName = jsonData.data[0].username;
+                userTitle = jsonData.data[0].title;
+                userLevel = jsonData.data[0].level;
+                userImage = jsonData.data[0].image;
+                userEmail = jsonData.data[0].email;
+                userGender = jsonData.data[0].gender;
+                userRFID = jsonData.data[0].RFID;
+                userPass = jsonData.data[0].password;
+                userAbout = jsonData.data[0].about;
+                userClass = jsonData.data[0].class;
 
-                    if (pageSelected === "AccountSettings")
-                        setProfileSettings();
-                    else if (pageSelected === "MainProfile") {
-                        $(".dial").val(expBarValue).trigger('change');
-                        setMainProfileInfo();
-                    } else
-                        setUserProfileInfo();
-                }
-            });
-    } else {
-        window.plugins.toast.showShortTop("No internet connection");
-        db.transaction(function(tx) {
-            tx.executeSql("SELECT id,rfid,username,password,class,about,status_id,level,title,currentExp,expNeeded,image,email,gender FROM userInfo WHERE id=?", [id], function(tx, res) {
-                if (res.rows.length) {
-                    experience = res.rows.item(0).currentExp;
-                    nextLevel = res.rows.item(0).expNeeded;
-                    expBarValue = (experience / nextLevel) * 100;
-                    userStatus = res.rows.item(0).status_id;
-                    userFullName = res.rows.item(0).username;
-                    userTitle = res.rows.item(0).title;
-                    userLevel = res.rows.item(0).level;
-                    userImage = res.rows.item(0).image;
-                    userEmail = res.rows.item(0).email;
-                    userGender = res.rows.item(0).gender;
-                    userRFID = res.rows.item(0).rfid;
-                    userPass = res.rows.item(0).password;
-                    userAbout = res.rows.item(0).about;
-                    userClass = res.rows.item(0).class;
+                profilePicDirectory = "/ProtosLabs/ProtosLabs.Hop/www/resources/profile_pictures/";
 
-                    profilePicDirectory = "resources/profile_pictures/";
-
-                    if (pageSelected === "AccountSettings")
-                        setProfileSettings();
-                    else if (pageSelected === "MainProfile") {
-                        $(".dial").val(expBarValue).trigger('change');
-                        setMainProfileInfo();
-                    } else
-                        setUserProfileInfo();
-                }
-            });
+                if (pageSelected === "AccountSettings")
+                    setProfileSettings();
+                else if (pageSelected === "MainProfile") {
+                    $(".dial").val(expBarValue).trigger('change');
+                    setMainProfileInfo();
+                } else
+                    setUserProfileInfo();
+            }
         });
-    }
+    // } else {
+    //     window.plugins.toast.showShortTop("No internet connection");
+    //     db.transaction(function(tx) {
+    //         tx.executeSql("SELECT id,rfid,username,password,class,about,status_id,level,title,currentExp,expNeeded,image,email,gender FROM userInfo WHERE id=?", [id], function(tx, res) {
+    //             if (res.rows.length) {
+    //                 experience = res.rows.item(0).currentExp;
+    //                 nextLevel = res.rows.item(0).expNeeded;
+    //                 expBarValue = (experience / nextLevel) * 100;
+    //                 userStatus = res.rows.item(0).status_id;
+    //                 userFullName = res.rows.item(0).username;
+    //                 userTitle = res.rows.item(0).title;
+    //                 userLevel = res.rows.item(0).level;
+    //                 userImage = res.rows.item(0).image;
+    //                 userEmail = res.rows.item(0).email;
+    //                 userGender = res.rows.item(0).gender;
+    //                 userRFID = res.rows.item(0).rfid;
+    //                 userPass = res.rows.item(0).password;
+    //                 userAbout = res.rows.item(0).about;
+    //                 userClass = res.rows.item(0).class;
+
+    //                 profilePicDirectory = "resources/profile_pictures/";
+
+    //                 if (pageSelected === "AccountSettings")
+    //                     setProfileSettings();
+    //                 else if (pageSelected === "MainProfile") {
+    //                     $(".dial").val(expBarValue).trigger('change');
+    //                     setMainProfileInfo();
+    //                 } else
+    //                     setUserProfileInfo();
+    //             }
+    //         });
+    //     });
+    // }
 }
 
 function setProfileInfo() {
@@ -1096,14 +1103,28 @@ function searchUsers(searchText) {
 // SETTINGS
 function setProfileSettings() {
 
+    var filterHop = localStorage.getItem("filterHop");
+    var filterMale = document.getElementById("filterMale");
+    var filterFemale = document.getElementById("filterFemale");
+
     document.getElementById("txtSettingsUsername").value = userFullName;
     document.getElementById("txtSettingsRFID").value = userRFID;
     document.getElementById("txtSettingsEmail").value = userEmail;
     document.getElementById("txtSettingsGender").value = userGender;
     document.getElementById("txtSettingsPass").value = userPass;
     document.getElementById("txtSettingsAbout").value = userAbout;
-    document.getElementById("filterMale").checked = localStorage.getItem("filterMale");
-    document.getElementById("filterFemale").checked = localStorage.getItem("filterFemale");
+
+    if (filterHop === "Both") {
+        filterMale.checked = true;
+        filterFemale.checked = true;
+    } else if (filterHop === "Male") {
+        filterMale.checked = true;
+        filterFemale.checked = false;
+    } else {
+        filterMale.checked = false;
+        filterFemale.checked = true;
+    }
+
     document.getElementById("vibrate").checked = localStorage.getItem("vibrate");
     document.getElementById("sound").checked = localStorage.getItem("sound");
 }
@@ -1235,6 +1256,21 @@ function settings_filterCheckbox(checkbox) {
         $.getJSON("http://localhost/ProtosLabs/HopData/index.php/hop/updatefilter?id=" + currentUserID + "&type=" + checkbox + "&value=" + 0);
         localStorage.setItem(checkbox, 0);
     }
+
+    if (checkbox === "filterMale" || checkbox === "filterFemale")
+        settings_checkFilter();
+}
+
+function settings_checkFilter() {
+
+    var filterMale = localStorage.getItem("filterMale");
+    var filterFemale = localStorage.getItem("filterFemale");
+    if (filterMale == 1 && filterFemale == 1)
+        localStorage.setItem("filterHop", "Both");
+    else if (filterMale == 1)
+        localStorage.setItem("filterHop", "Male");
+    else
+        localStorage.setItem("filterHop", "Female");
 }
 
 
