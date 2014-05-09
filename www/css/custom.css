@@ -25,20 +25,7 @@ h3 {
     margin-bottom: -25px;
 }
 
-
-#btnFacebook {
-    border: none;
-    color: white;
-    background-color: #365993;
-}
-
-#btnTwitter {
-    border: none;
-    color: white;
-    background-color: #2AC8FF;
-}
-
-#btnMingle{
+#btnHop{
     border: none;
     color: white;
     background-color: #0095FF;
@@ -51,38 +38,6 @@ h3 {
     color: #7ce4e4;
     font-size: 50px;
     text-shadow: none !important;
-}
-
-#pageHome {
-}
-
-
-
-.progress-bar input[type=number], .ui-slider-handle {
-    display: none !important;
-}  
-
-.progress-bar .ui-slider-track {
-    margin: 0px;
-    margin-top: -15px;
-    margin-left: -1px;    
-    height: 46px;
-    background-color: white !important;
-}
-
-.ui-slider-bg {
-    background-color: #356c9f !important;
-}
-
-.progress-bar {
-    height: 12px;
-    border-style: double;
-    border-width: 1px;
-    background-color: white;
-    margin-left: 20px;
-    margin-right: 20px; 
-    margin-top: 0px !important;
-    margin-bottom: 2px !important;  
 }
 
 .homeBtnCss {
@@ -141,18 +96,6 @@ h3 {
     color: #e4e4e4!important;
 }
 
-
-a[data-icon="twitter"].ui-icon-twitter {
-    background-image: url("resources/twitter_btn.png") !important;
-    background-color: transparent !important;
-    background-repeat: no-repeat !important;
-    border-width: 0px !important;
-    border:none !important;
-    display: inline-block!important;
-    height: 55px;
-    width: 20px;
-}
-
 div[data-role="main"] {
     background-color: #00000D !important;
     color: #e4e4e4 !important;
@@ -162,23 +105,6 @@ div[data-role="main"] {
     text-shadow: none !important;
 }
 
-a[data-icon="fb"].ui-icon-fb {
-    background-image: url("resources/fb_btn.png") !important;
-    background-color: transparent !important;
-    background-repeat: no-repeat !important;
-    border-style: none !important;
-    border-width: 0px !important;
-    margin-right: 0px !important;
-    display: inline-block!important;
-    height: 55px;
-    width: 20px;
-}
-
-#outButtons {
-    position: fixed;
-    bottom: 90px;; 
-}
-
 .customAreaList{
     font-family: "Segoe UI Light" !important;
     font-size: 16px !important;
@@ -186,26 +112,6 @@ a[data-icon="fb"].ui-icon-fb {
     background-size: cover!important;
     height: 100px !important;
 }
-
-/*.customBtnQc {
-    background-image: url(/ProtosLabs/ProtosLabs.Hop/www/resources/areas/qc_bg.jpg) !important;
-}
-
-.customBtnBgc {
-    background-image: url(/ProtosLabs/ProtosLabs.Hop/www/resources/areas/bgc_bg.jpg) !important;
-}
-
-.customBtnMalate {
-    background-image: url(/ProtosLabs/ProtosLabs.Hop/www/resources/areas/malate_bg.jpg) !important;
-}
-
-.customBtnMakati {
-    background-image: url(/ProtosLabs/ProtosLabs.Hop/www/resources/areas/makati_bg.jpg) !important;
-}
-
-.customBtnPasay {
-    background-image: url(/ProtosLabs/ProtosLabs.Hop/www/resources/areas/pasay_bg.jpg) !important;
-}*/
 
 #searchTopText {
     margin: 10px 10px;
@@ -217,68 +123,6 @@ a[data-icon="fb"].ui-icon-fb {
     text-shadow: none !important; 
     width:100%; 
     height:100%;
-}
-
-
-#dareContent {
-    display:block; 
-    width:100%; 
-    height:100%;
-    position: fixed !important;
-    text-align: center;
-    text-shadow: none !important;
-}
-
-.mainProfileSection_1 {
-    /*text-align:center;*/
-    margin-left: 25px !important;
-    margin-top: 0px !important;
-    margin-bottom: : 0px !important;
-    font-family: Verdana, Geneva, sans-serif !important;
-    font-weight: 100 !important;
-    color: #F6F6E8;
-    width:100%; 
-    height:100%;  
-    text-shadow: none !important;
-}
-
-.mainProfileSection_2 {
-    /*text-align:center;*/
-    margin-top: 10px !important;
-    margin-left: 30px !important;
-    margin-bottom: : 0px !important;
-    font-family: Verdana, Geneva, sans-serif !important;
-    font-weight: 100 !important;
-    font-size: 12px !important;
-    color: #F6F6E8;
-    width:100%; 
-    height:100%;  
-    text-shadow: none !important;
-}
-
-.mainProfileHeader{
-    margin-top: 20px !important;
-    margin-left: 20px !important;
-    margin-bottom: : 2px !important;
-    font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif !important;
-    font-weight: 100 !important;
-    font-size: 16px !important;
-    color: #2d76a0;
-    width:100%; 
-    height:100%;  
-    text-shadow: none !important;
-}
-
-.profileKnob{
-
-    
-}
-
-#mainProfileExperienceData{
-    text-align: center !important;
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
-    color: #F6F6E8;
 }
 
 #mainProfileContent{
@@ -310,26 +154,6 @@ div[data-role="popup"].div[data-role="header"] {
     border-color: transparent !important;    
     background-color:#FF9332 !important;
     border-width: 0px !important;
-    text-shadow: none !important;
-}
-
-.readyToMingle{
-    text-align: center;
-    font-family: "Segoe UI Light" !important;
-    font-weight: 100 !important;
-    font-size: 15px !important;
-    background-color: #00cc27 !important;
-    color: white !important;
-    text-shadow: none !important;
-}
-
-.notInTheMood{
-    text-align: center;
-    font-family: "Segoe UI Light" !important;
-    font-weight: 100 !important;
-    font-size: 15px !important;
-    background-color: #c00 !important;
-    color: white !important;
     text-shadow: none !important;
 }
 
@@ -545,7 +369,7 @@ div[data-role="popup"].div[data-role="header"] {
 }
 
 .buttonNotReady{
-    background-color: #0A0019 !important;
+    background-color: #080133 !important;
 }
 
 .buttonNotSelected{

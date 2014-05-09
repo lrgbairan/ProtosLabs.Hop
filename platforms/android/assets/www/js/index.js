@@ -212,7 +212,7 @@ function checkStorage() {
 function login() {
     username = document.getElementById('txtLoginUsername').value;
     password = document.getElementById('txtLoginPassword').value;
-    $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/login?username=' + username + '&password=' + password,
+    $.getJSON('http://protoslabs.com/protoslabs/hopdata/index.php/hop/login?username=' + username + '&password=' + password,
         function(jsonData) {
             if (jsonData.error == '0') {
                 storeUserData(jsonData.data[0]);
@@ -226,32 +226,32 @@ function login() {
             } else if (jsonData.error == '1')
                 alert("Username or password invalid");
             // window.plugins.toast.showShortCenter("Username or password invalid");
-        })
-        .fail(function() {
-            window.plugins.toast.showShortCenter("No internet connection");
-            db.transaction(function(tx) {
-                tx.executeSql("SELECT id,username,password,image FROM userInfo WHERE username=? AND password=?", [username, password], function(tx, res) {
-                    if (res.rows.length) {
-                        localStorage.setItem('id', 1);
-                        localStorage.setItem('username', "superkidluigi");
-                        localStorage.setItem('image', "1.jpg");
-                        localStorage.setItem("filterMale", 1);
-                        localStorage.setItem("filterFemale", 1);
-                        localStorage.setItem("vibrate", 1);
-                        localStorage.setItem("sound", 1);
-
-                        currentUserID = 1;
-                        userImage = "1.jpg";
-                        changePageEvent('Home');
-                        $.mobile.changePage("#pageHome", {
-                            changeHash: true,
-                            transition: "pop",
-                        });
-                    } else
-                        alert('Username or password invalid');
-                });
-            });
         });
+    // .fail(function() {
+    //     window.plugins.toast.showShortCenter("No internet connection");
+    //     db.transaction(function(tx) {
+    //         tx.executeSql("SELECT id,username,password,image FROM userInfo WHERE username=? AND password=?", [username, password], function(tx, res) {
+    //             if (res.rows.length) {
+    //                 localStorage.setItem('id', 1);
+    //                 localStorage.setItem('username', "superkidluigi");
+    //                 localStorage.setItem('image', "1.jpg");
+    //                 localStorage.setItem("filterMale", 1);
+    //                 localStorage.setItem("filterFemale", 1);
+    //                 localStorage.setItem("vibrate", 1);
+    //                 localStorage.setItem("sound", 1);
+
+    //                 currentUserID = 1;
+    //                 userImage = "1.jpg";
+    //                 changePageEvent('Home');
+    //                 $.mobile.changePage("#pageHome", {
+    //                     changeHash: true,
+    //                     transition: "pop",
+    //                 });
+    //             } else
+    //                 alert('Username or password invalid');
+    //         });
+    //     });
+    // });
 }
 
 function storeUserData(data) {

@@ -1,22 +1,23 @@
 // Current User
 var currentUserID = "";
 var clubCurrentId = '0';
+
 // Current Page
 var pageSelected = "Login";
 var profilePicDirectory = "resources/profile_pictures/";
 var barProfilePicDirectory = "resources/barprofile_pictures/"
 var areaPicDirectory = "resources/areas/";
+
 //Home Global Variables
 var clubCurrent = '3';
 var notifTimer;
-//User Panel Global Variables
+
 //Search Global Variables
-var areaListing = {}
 var selectedArea = "NONE";
 var selectedAreadId = "NONE";
 var selectedBar = "NONE";
 var selectedBarId = "NONE";
-var selectedBarList = [];
+
 //Profile Global Variables
 var userID = "NONE";
 var userFullName = "LUKE BEERWALKER";
@@ -33,20 +34,6 @@ var userPass = "";
 var userAbout = "";
 var userClass = "";
 
-// FILTER //
-
-var settingsFilterMale = 1;
-var settingsFilterFemale = 1;
-var settingsVibrate = 1;
-var settingsSound = 1;
-
-
-//LastModified Global Variables
-var panelCurrentUserLastmodified = "";
-var pageHomeLastModified = "";
-var pageSearchLastModified = "";
-var pageChallengesLastModified = "";
-var pageProfileLastModified = "";
 //Signup Global Variables
 var usernameAvailable = false;
 var passwordAvailable = false;
@@ -58,8 +45,8 @@ var signupUsername = "";
 var signupPassword = "";
 var signupEmail = "";
 
-//Mingle Global Variables
-var mingleExchangeID = "";
+//Hop Global Variables
+var hopExchangeID = "";
 
 //Bar Global Variables
 var barName = "";
@@ -75,8 +62,10 @@ var barDescription = "";
 var barBudget = "";
 var barEntranceFee = "";
 var barPopularFor = "";
+
 //Search Global Variables
 var lastEntry = "";
+
 //Timer Global Variables
 var timerStart = false;
 
@@ -84,13 +73,7 @@ function changePageEvent(selected) {
     pageSelected = selected;
     userID = currentUserID;
 };
-/*
-function changePageEvent(selected,key){
-alert('hi');
-pageSelected = selected;
-userID = currentUserID;
-};
-*/
+
 function updateLoginPage() {
     checkStorage();
 }
@@ -98,7 +81,7 @@ function updateLoginPage() {
 function updateHomePage() {
     refreshHome();
     clearList("activityList");
-    getMingleRequests();
+    getHopRequests();
     //clear("notifList");
     //getNotifications();
 };
@@ -113,7 +96,7 @@ function updateMainProfilePage() {
 };
 
 function updateUserProfilePage() {
-    clearButton("mingleButton");
+    clearButton("hopButton");
     getProfileInfo(userID);
 };
 
@@ -130,27 +113,25 @@ function updateBarProfilePage() {
 
 function updateStatusButton(elementId) {
 
-    var btnHopReady = $("#btnMingleYes");
-    var btnHopNotReady = $("#btnMingleNo");
-    var chosenElement = document.getElementById(elementId);
-    chosenElement.removeClass("buttonNotSelected");
-    chosenElement.addClass("buttonSelected");
+    var html_btnHopReady = $("#btnHopYes");
+    var html_btnHopNotReady = $("#btnHopNo");
 
-    if (userStatus == 1)
-        chosenElement.addClass("buttonReady");
-    else
-        chosenElement.addClass("buttonNotReady");
+    if (userStatus == 1) {
+        html_btnHopReady.removeClass("buttonNotSelected");
+        html_btnHopReady.addClass("buttonSelected");
+        html_btnHopReady.addClass("buttonReady");
 
-    if (elementId === "btnMingleYes") {
-        btnHopNotReady.removeClass("buttonSelected");
-        btnHopNotReady.removeClass("buttonNotReady");
-        btnHopNotReady.addClass("buttonNotSelected");
+        html_btnHopNotReady.removeClass("buttonSelected");
+        html_btnHopNotReady.addClass("buttonNotSelected");
     } else {
-        btnHopReady.removeClass("buttonSelected");
-        btnHopReady.removeClass("buttonReady");
-        btnHopReady.addClass("buttonNotSelected");
+        html_btnHopReady.removeClass("buttonSelected");
+        html_btnHopReady.addClass("buttonNotSelected");
+
+        html_btnHopNotReady.removeClass("buttonNotSelected");
+        html_btnHopNotReady.addClass("buttonSelected");
+        html_btnHopNotReady.addClass("buttonNotReady");
     }
-};
+}
 
 function updateAccountSettings() {
     getProfileInfo(currentUserID);
@@ -197,14 +178,13 @@ $(document).on("pageshow", '*[data-role="page"]', function() {
 
 
 // FOR LOGIN PAGE //
-// 
+
 function checkStorage() {
     if ('localStorage' in window && window['localStorage'] !== null) {
         if (localStorage.getItem('id') !== null) {
             db = window.openDatabase("HopLocalDB", "1.0", "Hop local database", 5 * 1024 * 1024);
             currentUserID = localStorage.getItem('id');
-            changePageEvent('Home');
-            window.location.href = "#pageHome";
+            changePage("Home", "#pageHome");
         }
     }
 }
@@ -212,53 +192,34 @@ function checkStorage() {
 function login() {
     username = document.getElementById('txtLoginUsername').value;
     password = document.getElementById('txtLoginPassword').value;
-    $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/login?username=' + username + '&password=' + password,
-        function(jsonData) {
-            if (jsonData.error == '0') {
-                storeUserData(jsonData.data[0]);
-                db = window.openDatabase("HopLocalDB", "1.0", "Hop local database", 5 * 1024 * 1024);
-                startNotificationUpdate();
-                changePageEvent('Home');
-                $.mobile.changePage("#pageHome", {
-                    changeHash: true,
-                    transition: "pop",
-                });
-            } else if (jsonData.error == '1')
-                alert("Username or password invalid");
-            // window.plugins.toast.showShortCenter("Username or password invalid");
-        })
-        .fail(function() {
-            window.plugins.toast.showShortCenter("No internet connection");
-            db.transaction(function(tx) {
-                tx.executeSql("SELECT id,username,password,image FROM userInfo WHERE username=? AND password=?", [username, password], function(tx, res) {
-                    if (res.rows.length) {
-                        localStorage.setItem('id', 1);
-                        localStorage.setItem('username', "superkidluigi");
-                        localStorage.setItem('image', "1.jpg");
-                        localStorage.setItem("filterMale", 1);
-                        localStorage.setItem("filterFemale", 1);
-                        localStorage.setItem("vibrate", 1);
-                        localStorage.setItem("sound", 1);
 
-                        currentUserID = 1;
-                        userImage = "1.jpg";
-                        changePageEvent('Home');
-                        $.mobile.changePage("#pageHome", {
-                            changeHash: true,
-                            transition: "pop",
-                        });
-                    } else
-                        alert('Username or password invalid');
-                });
-            });
+    // for staging change url to : http://protoslabs.com/protoslabs/hopdata/index.php/hop/login?username=' + username + '&password=' + password
+    $.getJSON('http://localhost/protoslabs/hopdata/index.php/hop/login?username=' + username + '&password=' + password,
+        function(jsonData) {
+            if (jsonData.flag === "true") {
+                db = window.openDatabase("HopLocalDB", "1.0", "Hop local database", 5 * 1024 * 1024);
+                storeUserData(jsonData.data[0]);
+                startNotificationUpdate();
+                changePage("Home", "#pageHome");
+            } else if (jsonData.flag === "false")
+                alert("Username or password invalid");
+            //window.plugins.toast.showShortCenter("Username or password invalid");
         });
+}
+
+function changePage(page, pageId) {
+    changePageEvent(page);
+    $.mobile.changePage(pageId, {
+        changeHash: true,
+        transition: "pop",
+    });
 }
 
 function storeUserData(data) {
 
-    localStorage.setItem('id', data.id);
-    localStorage.setItem('username', data.username);
-    localStorage.setItem('image', data.image);
+    localStorage.setItem("id", data.id);
+    localStorage.setItem("username", data.username);
+    localStorage.setItem("image", data.image);
     localStorage.setItem("filterMale", data.filterMale);
     localStorage.setItem("filterFemale", data.filterFemale);
     localStorage.setItem("vibrate", data.vibrate);
@@ -268,25 +229,6 @@ function storeUserData(data) {
 
     settings_checkFilter();
 }
-
-// function refreshStamina() {
-//     $.ajax({
-//         type: 'GET',
-//         url: 'http://localhost/ProtosLabs/HopData/index.php/hop/refreshstamina?id=' + currentUserID,
-//         dataType: 'json',
-//         async: false,
-//         success: function(jsonData) {
-//             if (jsonData.flag === 'true') {
-//                 userStamina = jsonData.data[0].stamina;
-//                 alert('Stamina refreshed!');
-//             } else
-//                 alert('Wait for tomorrow');
-//         },
-//         fail: function(jsonData) {
-//             alert('No internet connection');
-//         }
-//     });
-// }
 
 function logout() {
     removeStorageItems();
@@ -301,46 +243,70 @@ function clearLoginElements() {
 }
 
 function removeStorageItems() {
-    if (localStorage.getItem('id') !== null)
-        localStorage.removeItem('id');
-    if (localStorage.getItem('username') !== null)
-        localStorage.removeItem('username');
-    if (localStorage.getItem('dbCreated') !== null)
-        localStorage.removeItem('dbCreated');
+    if (localStorage.getItem("id") !== null)
+        localStorage.removeItem("id");
+    if (localStorage.getItem("username") !== null)
+        localStorage.removeItem("username");
+    if (localStorage.getItem("dbCreated") !== null)
+        localStorage.removeItem("dbCreated");
+    if (localStorage.getItem("filterMale") !== null)
+        localStorage.removeItem("filterMale");
+    if (localStorage.getItem("filterFemale") !== null)
+        localStorage.removeItem("filterMale");
+    if (localStorage.getItem("vibrate") !== null)
+        localStorage.removeItem("vibrate");
+    if (localStorage.getItem("sound") !== null)
+        localStorage.removeItem("sound");
+
 }
 
 function leave() {
+    // for staging change url to : http://protoslabs.com/protoslabs/hopdata/index.php/hop/leave?id=
     $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/leave?id=' + currentUserID,
         function(jsonData) {
-            document.getElementById("clubName").innerHTML = "HOP";
+            var clubName = document.getElementById("clubName");
+            clubName.innerHTML = "HOP";
         })
         .fail(function() {
-            alert("No internet connection")
+            // window.plugins.toast.showShortCenter("No internet connection");
         });
     window.location.reload();
 }
+
+
+
 // FOR HOME PAGE //
 function getUsername() {
-    document.getElementById("panelProfilePicThumb").src = profilePicDirectory + localStorage.getItem('image');
-    document.getElementById("leaveBar").innerHTML = "Leave " + clubCurrent;
+
+    var panelPic = document.getElementById("panelProfilePicThumb");
+    var btnLeaveBar = document.getElementById("leaveBar");
+    var panelImage = localStorage.getItem('image');
+
+    panelPic.src = profilePicDirectory + panelImage;
+    btnLeaveBar.innerHTML = "Leave " + clubCurrent;
 }
 
 function refreshHome() {
 
+    // for staging change url to : http://protoslabs.com/protoslabs/hopdata/index.php/hop/currentbar?id=
     $.getJSON("http://localhost/ProtosLabs/HopData/index.php/hop/currentbar?id=" + currentUserID,
         function(jsonData) {
-            if (jsonData.error === '0') {
+
+            if (jsonData.flag === "true") {
                 clubCurrent = jsonData.data[0].name;
                 clubCurrentId = jsonData.data[0].id;
                 refreshCurrentUsersList();
             } else {
+                clearList("listCurrentUsers");
                 clubCurrent = "Hop";
                 clubCurrentId = "0";
             }
-            document.getElementById("clubName").innerHTML = clubCurrent;
+
+            var clubName = document.getElementById("clubName");
+            clubName.innerHTML = clubCurrent;
         })
         .fail(function() {
-            window.plugins.toast.showShortCenter("No internet connection");
+            //window.plugins.toast.showShortCenter("No internet connection");
             db.transaction(function(tx) {
                 tx.executeSql("SELECT bar_id FROM userInfo WHERE id=?", [currentUserID], function(tx, res) {
                     if (res.rows.length) {
@@ -349,10 +315,12 @@ function refreshHome() {
                                 clubCurrent = checkres.rows.item(0).name;
                                 clubCurrentId = checkres.rows.item(0).id;
                             } else {
+                                clearList("listCurrentUsers");
                                 clubCurrent = "Hop";
                                 clubCurrentId = "0";
                             }
-                            document.getElementById("clubName").innerHTML = clubCurrent;
+                            var clubName = document.getElementById("clubName");
+                            clubName.innerHTML = clubCurrent;
                         });
                     }
                 });
@@ -373,26 +341,23 @@ function clearList(elementId) {
 }
 
 function getCurrentUsers() {
-    if (clubCurrentId != '0') {
 
-        var filterUsers = localStorage.getItem("filterHop");
+    var filterUsers = localStorage.getItem("filterHop");
 
-        $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/users?bar=' + clubCurrentId + '&gender=' + filterUsers,
-            function(jsonData) {
-                if (jsonData.flag === 'true') {
-                    $.each(jsonData.users, function(i, data) {
-                        if (data.id !== currentUserID)
-                            populateCurrentUsersList(data.id, data.username, data.image, data.status_id);
-                    });
-                }
-            })
-            .fail(function() {
-                window.plugins.toast.showShortTop("No internet connection");
-            });
-    }
+    // for staging change url to : http://protoslabs.com/protoslabs/hopdata/index.php/hop/users?bar=""&gender=""
+    $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/users?bar=' + clubCurrentId + '&gender=' + filterUsers,
+        function(jsonData) {
+            if (jsonData.flag === 'true') {
+                $.each(jsonData.users, function(i, data) {
+                    if (data.id !== currentUserID)
+                        populateCurrentUsersList(data.id, data.username, data.image, data.status_id);
+                });
+            }
+        });
 }
 
 function populateCurrentUsersList(id, name, image, status_id) {
+
     var ul = document.getElementById("listCurrentUsers");
     var li = document.createElement("li");
     var a = document.createElement('a');
@@ -419,7 +384,7 @@ function populateCurrentUsersList(id, name, image, status_id) {
 
 function startNotificationUpdate() {
     notifTimer = setInterval(function() {
-        checkForMingleAccept();
+        checkForHopAccept();
     }, 10000);
     timerStart = true;
 }
@@ -431,30 +396,34 @@ function stopNotificationUpdate() {
     }
 }
 
-function checkForMingleAccept() {
-    $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/checkmingleaccept?user_id=' + currentUserID,
+function checkForHopAccept() {
+
+    // for staging change url to : http://protoslabs.com/protoslabs/hopdata/index.php/hop/checkhopaccept?user_id=""
+    $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/checkhopaccept?user_id=' + currentUserID,
         function(jsonData) {
             if (jsonData.flag === 'true') {
                 $.each(jsonData.data, function(i, data) {
                     alert("Meet " + data.receiver_id + " at the counter");
-                    deleteMingle(data.user_id, data.receiver_id);
+                    deleteHop(data.user_id, data.receiver_id);
                     checkIfLevelUp(jsonData.data[0].level, jsonData.data[0].currentExp, jsonData.data[0].expNeeded);
                 });
             }
-        })
-        .fail(function() {
-            alert("No internet connection");
         });
+    // .fail(function() {
+    //     alert("No internet connection");
+    // });
 
     stopNotificationUpdate();
 }
 
-function deleteMingle(user_id, receiver_id) {
-    $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/deletemingle?user_id=' + user_id + '&receiver_id=' + receiver_id, function(jsonData) {});
+function deleteHop(user_id, receiver_id) {
+    // for staging change url to : http://protoslabs.com/protoslabs/hopdata/index.php/hop/deletehop?user_id=""&receiver_id=""
+    $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/deletehop?user_id=' + user_id + '&receiver_id=' + receiver_id);
 }
 
 function getNotifications() {
 
+    // for staging change url to : http://protoslabs.com/protoslabs/hopdata/index.php/hop/getnotif?id=""
     $.getJSON("http://localhost/ProtosLabs/HopData/index.php/hop/getnotif?id=" + currentUserID,
         function(jsonData) {
 
@@ -514,6 +483,8 @@ function getAreaId(areaName) {
 }
 
 function getAreas() {
+
+    // for staging change url to : http://protoslabs.com/protoslabs/hopdata/index.php/hop/getallarea
     $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/getallarea',
         function(jsonData) {
             $.each(jsonData.data, function(i, data) {
@@ -521,7 +492,7 @@ function getAreas() {
             });
         })
         .fail(function() {
-            // alert("No internet connection");
+            //window.plugins.toast.showShortTop("No internet connection");
             db.transaction(function(tx) {
                 tx.executeSql("SELECT id,name FROM area", [], function(tx, res) {
                     if (res.rows.length) {
@@ -555,6 +526,7 @@ function populateArealist(id, name) {
 }
 
 function getBars(id) {
+    // for staging change url to : http://protoslabs.com/protoslabs/hopdata/index.php/hop/bardetails?area_id=""
     $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/bardetails?area_id=' + id,
         function(jsonData) {
             $.each(jsonData.bar, function(i, data) {
@@ -562,7 +534,7 @@ function getBars(id) {
             });
         })
         .fail(function() {
-            //alert("No internet connection");
+            //window.plugins.toast.showShortTop("No internet connection");
             db.transaction(function(tx) {
                 tx.executeSql("SELECT id,name,maleCount,femaleCount FROM bars WHERE area_id=?", [id], function(tx, res) {
                     if (res.rows.length) {
@@ -595,52 +567,43 @@ function populateBarList(id, name, maleCount, femaleCount) {
 
 function getBarProfile() {
 
+    // for staging change url to : http://protoslabs.com/protoslabs/hopdata/index.php/hop/searchbar?bar_id=""
     $.getJSON("http://localhost/ProtosLabs/HopData/index.php/hop/searchbar?bar_id=" + selectedBarId,
         function(jsonData) {
-            barName = jsonData.data[0].name;
-            barAddress = jsonData.data[0].address;
-            barDescription = jsonData.data[0].description;
-            barImage = jsonData.data[0].image;
-            barDaysOpen = jsonData.data[0].daysOpen;
-            barBudget = jsonData.data[0].budget;
-            barEntranceFee = jsonData.data[0].entranceFee;
-            barPopularFor = jsonData.data[0].popular;
-            barCategory = jsonData.data[0].category;
-            barMaleCount = jsonData.data[0].maleCount;
-            barFemaleCount = jsonData.data[0].femaleCount;
-            barContactInfo = jsonData.data[0].contactNumber;
-            //  barMapUrl = jsonData.data[0].mapUrl;
-            //  
             barProfilePicDirectory = "/ProtosLabs/ProtosLabs.Hop/www/resources/barprofile_pictures/";
-            setBarProfile();
-
+            setBarInfo(jsonData.data[0]);
         })
         .fail(function() {
-            //alert("No internet connection");
+            // window.plugins.toast.showShortTop("No internet connection");
             db.transaction(function(tx) {
                 tx.executeSql("SELECT name,address,description,image,daysOpen,budget,entranceFee, " +
                     "popularFor,category,maleCount,femaleCount,contactNumber FROM bars WHERE id=?", [selectedBarId], function(tx, res) {
                         if (res.rows.length) {
-                            barName = res.rows.item(0).name;
-                            barAddress = res.rows.item(0).address;
-                            barDescription = res.rows.item(0).description;
-                            barImage = res.rows.item(0).image;
-                            barDaysOpen = res.rows.item(0).daysOpen;
-                            barBudget = res.rows.item(0).budget;
-                            barEntranceFee = res.rows.item(0).entranceFee;
-                            barPopularFor = res.rows.item(0).popularFor;
-                            barCategory = res.rows.item(0).category;
-                            barMaleCount = res.rows.item(0).maleCount;
-                            barFemaleCount = res.rows.item(0).femaleCount;
-                            barContactInfo = res.rows.item(0).contactNumber;
-
                             barProfilePicDirectory = "resources/barprofile_pictures/";
-                            setBarProfile();
-
+                            setBarInfo(res.rows.item(0));
                         }
                     });
             });
         });
+}
+
+function setBarInfo(data) {
+
+    barName = data.name;
+    barAddress = data.address;
+    barDescription = data.description;
+    barImage = data.image;
+    barDaysOpen = data.daysOpen;
+    barBudget = data.budget;
+    barEntranceFee = data.entranceFee;
+    barPopularFor = data.popularFor;
+    barCategory = data.category;
+    barMaleCount = data.maleCount;
+    barFemaleCount = data.femaleCount;
+    barContactInfo = data.contactNumber;
+    //  barMapUrl = data.mapUrl;
+
+    setBarProfile();
 }
 
 function setBarProfile() {
@@ -661,19 +624,24 @@ function setBarProfile() {
     document.getElementById("barProfilePopular").innerHTML = barPopularFor;
     document.getElementById("barProfileContact").innerHTML = barContactInfo;
 }
+
+
+
 // FOR ACTIVITY PAGE //
-function getMingleRequests() {
-    $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/getminglerequests?id=' + currentUserID,
+function getHopRequests() {
+
+    // for staging change url to : http://protoslabs.com/protoslabs/hopdata/index.php/hop/gethoprequests?id=""
+    $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/gethoprequests?id=' + currentUserID,
         function(jsonData) {
-            if (jsonData.error == '0') {
+            if (jsonData.flag === "true") {
                 $.each(jsonData.data, function(i, data) {
                     populateActivityList(data.id, data.user_id, data.username);
                 });
             }
-        })
-        .fail(function() {
-            //alert("No internet connection");
         });
+    // .fail(function() {
+    //     //alert("No internet connection");
+    // });
 }
 
 function populateActivityList(id, sender_id, username) {
@@ -687,10 +655,10 @@ function populateActivityList(id, sender_id, username) {
     a.setAttribute('data-transition', 'slidedown');
     a.className = "ui-btn ui-btn-icon-right ui-icon-carat-r customBtn";
     a.onclick = (function() {
-        var currentMingleID = id;
+        var currentHopID = id;
         var currentSenderName = username;
         return function() {
-            initializePopup(currentMingleID, currentSenderName);
+            initializePopup(currentHopID, currentSenderName);
         }
     })();
     li.appendChild(a);
@@ -698,21 +666,21 @@ function populateActivityList(id, sender_id, username) {
 }
 
 function initializePopup(id, name) {
-    mingleExchangeID = id;
+    hopExchangeID = id;
     document.getElementById("challengeTitle").innerHTML = "Hop Request";
     document.getElementById("challengeContent").innerHTML = "Accept " + name + "'s Hop request?";
 }
 
-function mingleAccept() {
+function hopAccept() {
 
-    //if wifi ready
-    $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/acceptminglerequest?id=' + mingleExchangeID,
+    // for staging change url to : http://protoslabs.com/protoslabs/hopdata/index.php/hop/accepthoprequest?id=""
+    $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/accepthoprequest?id=' + hopExchangeID,
         function(jsonData) {
             checkIfLevelUp(jsonData.data[0].level, jsonData.data[0].currentExp, jsonData.data[0].expNeeded);
             getRandomPlace();
         })
         .fail(function() {
-            alert('No internet connection')
+            // window.plugins.toast.showShortTop("No internet connection");
         });
 }
 
@@ -720,7 +688,7 @@ function checkIfLevelUp(level, current, needed) {
 
     if ((currentExp + 20) > expNeeded) {
         //SHOW POP UP(User has gained a level)
-        window.plugins.toast.showLongCenter("You have gained a level!");
+        //window.plugins.toast.showLongCenter("You have gained a level!");
     }
 
     currentExp = current;
@@ -729,9 +697,12 @@ function checkIfLevelUp(level, current, needed) {
 }
 
 function getRandomPlace() {
+
+    // for staging change url to : http://protoslabs.com/protoslabs/hopdata/index.php/hop/randomarea
     $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/randomarea',
         function(jsonData) {
             alert(jsonData.data[0].area);
+            //POP UP HERE
         });
 }
 // FOR PROFILE PAGE //
@@ -752,176 +723,143 @@ function getProfileInfo(id) {
 
     //Comment navigator if working through localhost
 
-    if (navigator.network.connection.type !== "none") {
-        $.getJSON("http://localhost/ProtosLabs/HopData/index.php/hop/searchprofile?id=" + id,
-            function(jsonData) {
-                if (jsonData.error == 0) {
-                    experience = jsonData.data[0].currentExp;
-                    nextLevel = jsonData.data[0].nextLevel;
-                    expBarValue = (experience / nextLevel) * 100;
-                    userStatus = jsonData.data[0].status_id;
-                    userFullName = jsonData.data[0].username;
-                    userTitle = jsonData.data[0].title;
-                    userLevel = jsonData.data[0].level;
-                    userImage = jsonData.data[0].image;
-                    userEmail = jsonData.data[0].email;
-                    userGender = jsonData.data[0].gender;
-                    userRFID = jsonData.data[0].RFID;
-                    userPass = jsonData.data[0].password;
-                    userAbout = jsonData.data[0].about;
-                    userClass = jsonData.data[0].class;
-
-                    profilePicDirectory = "/ProtosLabs/ProtosLabs.Hop/www/resources/profile_pictures/";
-
-                    if (pageSelected === "AccountSettings")
-                        setProfileSettings();
-                    else if (pageSelected === "MainProfile") {
-                        $(".dial").val(expBarValue).trigger('change');
-                        setMainProfileInfo();
-                    } else
-                        setUserProfileInfo();
-                }
-            });
-    } else {
-        window.plugins.toast.showShortTop("No internet connection");
-        db.transaction(function(tx) {
-            tx.executeSql("SELECT id,rfid,username,password,class,about,status_id,level,title,currentExp,expNeeded,image,email,gender FROM userInfo WHERE id=?", [id], function(tx, res) {
-                if (res.rows.length) {
-                    experience = res.rows.item(0).currentExp;
-                    nextLevel = res.rows.item(0).expNeeded;
-                    expBarValue = (experience / nextLevel) * 100;
-                    userStatus = res.rows.item(0).status_id;
-                    userFullName = res.rows.item(0).username;
-                    userTitle = res.rows.item(0).title;
-                    userLevel = res.rows.item(0).level;
-                    userImage = res.rows.item(0).image;
-                    userEmail = res.rows.item(0).email;
-                    userGender = res.rows.item(0).gender;
-                    userRFID = res.rows.item(0).rfid;
-                    userPass = res.rows.item(0).password;
-                    userAbout = res.rows.item(0).about;
-                    userClass = res.rows.item(0).class;
-
-                    profilePicDirectory = "resources/profile_pictures/";
-
-                    if (pageSelected === "AccountSettings")
-                        setProfileSettings();
-                    else if (pageSelected === "MainProfile") {
-                        $(".dial").val(expBarValue).trigger('change');
-                        setMainProfileInfo();
-                    } else
-                        setUserProfileInfo();
-                }
-            });
+    //if (navigator.network.connection.type !== "none") {
+    // for staging change url to : http://protoslabs.com/protoslabs/hopdata/index.php/hop/searchprofile?id=""
+    $.getJSON("http://localhost/ProtosLabs/HopData/index.php/hop/searchprofile?id=" + id,
+        function(jsonData) {
+            if (jsonData.flag === "true") {
+                profilePicDirectory = "/ProtosLabs/ProtosLabs.Hop/www/resources/profile_pictures/";
+                setProfileInfo(jsonData.data[0]);
+            }
         });
-    }
+    // } else {
+    //     // window.plugins.toast.showShortTop("No internet connection");
+    //     db.transaction(function(tx) {
+    //         tx.executeSql("SELECT id,rfid,username,password,class,about,status_id,level,title,currentExp,expNeeded,image,email,gender FROM userInfo WHERE id=?", [id], function(tx, res) {
+    //             if (res.rows.length) {
+    //                 profilePicDirectory = "resources/profile_pictures/";
+    //                 setProfileInfo(res.rows.item(0));
+    //             }
+    //         });
+    //     });
+    // }
 }
 
-function setProfileInfo() {
+function setProfileInfo(data) {
 
-    // TO DO
+    experience = data.currentExp;
+    nextLevel = data.nextLevel;
+    expBarValue = (experience / nextLevel) * 100;
+    userStatus = data.status_id;
+    userFullName = data.username;
+    userTitle = data.title;
+    userLevel = data.level;
+    userImage = data.image;
+    userEmail = data.email;
+    userGender = data.gender;
+    userRFID = data.rfid;
+    userPass = data.password;
+    userAbout = data.about;
+    userClass = data.class;
+
+    if (pageSelected === "AccountSettings")
+        setProfileSettings();
+    else if (pageSelected === "MainProfile") {
+        $(".dial").val(expBarValue).trigger('change');
+        setMainProfileInfo();
+    } else
+        setUserProfileInfo();
 }
 
 
 function setMainProfileInfo() {
 
-    var html_btnHopReady = $("#btnMingleYes");
-    var html_btnHopNotReady = $("#btnMingleNo");
+    var html_btnHopReady = $("#btnHopYes");
+    var html_btnHopNotReady = $("#btnHopNo");
 
     if (userStatus == 1) {
         html_btnHopReady.removeClass("buttonNotSelected");
         html_btnHopReady.addClass("buttonSelected");
         html_btnHopReady.addClass("buttonReady");
+
         html_btnHopNotReady.removeClass("buttonSelected");
         html_btnHopNotReady.addClass("buttonNotSelected");
     } else {
         html_btnHopReady.removeClass("buttonSelected");
         html_btnHopReady.addClass("buttonNotSelected");
+
         html_btnHopNotReady.removeClass("buttonNotSelected");
         html_btnHopNotReady.addClass("buttonSelected");
         html_btnHopNotReady.addClass("buttonNotReady");
     }
+
     document.getElementById('mainProfilePic').src = profilePicDirectory + userImage;
     document.getElementById("mainProfileUserFullName").innerHTML = userFullName;
     document.getElementById("mainProfileLevel").innerHTML = "Lvl. " + userLevel;
     document.getElementById("mainProfileAbout").innerHTML = userAbout;
-    // document.getElementById("mainProfileUserLevel").innerHTML = "Lvl " + userLevel;
     document.getElementById("mainProfileUserTitle").innerHTML = userTitle;
-    //document.getElementById("mainProfileExperienceData").innerHTML = experience + "/" + nextLevel;
     document.getElementById("mainProfileClass").innerHTML = userClass;
 }
 
 function setUserProfileInfo() {
     document.getElementById('userProfilePic').src = profilePicDirectory + userImage;
-    document.getElementById("userProfileUserFullName").innerHTML = "Lvl " + userLevel + " " + userFullName;
+    document.getElementById("userProfileUserFullName").innerHTML = userFullName;
+    document.getElementById("userProfileLevel").innerHTML = "Lvl. " + userLevel;
     document.getElementById("userProfileAbout").innerHTML = userAbout;
-    // document.getElementById("userProfileUserLevel").innerHTML = "Lvl " + userLevel;
     document.getElementById("userProfileUserTitle").innerHTML = "\"" + userTitle + "\"";
     document.getElementById("userProfileClass").innerHTML = userClass;
     if (userStatus == 1) {
-        createMingleButton();
+        createHopButton();
     }
 }
 
-function createMingleButton() {
-    var div = document.getElementById("mingleButton");
+function createHopButton() {
+    var div = document.getElementById("hopButton");
     var button = document.createElement("button");
-    button.id = "btnMingle";
+    button.id = "btnHop";
     button.className = "ui-btn ui-btn-inline ui-corner-all";
     button.innerHTML = "Hop with " + userFullName;
     button.onclick = (function() {
         return function() {
-            sendMingleRequest();
+            sendHopRequest();
         }
     })();
     div.appendChild(button);
 }
 
-// function checkStamina() {
-//     if ((userStamina - mingleStaminaConsume) >= 0) {
-//         userStamina -= mingleStaminaConsume;
-//         $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/consumestamina?id=' + currentUserID + '&stamina=' + userStamina,
-//             function(jsonData) {
-//                 if (jsonData.flag === 'true') {
-//                     localStorage.setItem('stamina', userStamina);
-//                     sendMingleRequest();
-//                 }
-//             })
-//             .fail(function() {
-//                 alert("No internet connection");
-//             });
-//     } else
-//         alert('No stamina left to mingle');
-// }
-
-function sendMingleRequest() {
-    $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/sendminglerequest?user_id=' + currentUserID + '&receiver_id=' + userID,
+function sendHopRequest() {
+    $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/sendhoprequest?user_id=' + currentUserID + '&receiver_id=' + userID,
         function(jsonData) {
+
+            //POP UP HERE
+
             if (jsonData.flag === 'false')
-                alert('Mingle request to ' + userFullName + ' already sent');
+                alert("Hop request to ' + userFullName + ' already sent");
+            // window.plugins.toast.showShortCenter("Hop request to ' + userFullName + ' already sent");
             else
-                alert('Mingle request to ' + userFullName + ' success');
+                alert("Hop request to ' + userFullName + ' success");
+            //window.plugins.toast.showShortCenter("Hop request to ' + userFullName + ' success");
         })
         .fail(function() {
-            alert("No internet connection");
+            //window.plugins.toast.showShortCenter("No internet connection");
         });
 }
 // FOR STATUS //
 function toggleStatus(elementId) {
-    if (userID === currentUserID) {
-        if (userStatus == 1)
-            userStatus = 2;
-        else
-            userStatus = 1;
-        saveNewStatus();
-        updateStatusButton(elementId);
-    }
+
+    if (elementId === "btnHopYes")
+        userStatus = 1;
+    else
+        userStatus = 2;
+
+    saveNewStatus();
+    updateStatusButton();
 }
 
 function saveNewStatus() {
     $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/savestatus?id=' + userID + '&statusId=' + userStatus, function(jsonData) {})
         .fail(function() {
-            alert("No internet connection")
+            // window.plugins.toast.showShortCenter("No internet connection");
         });
 }
 // FOR SIGN UP //
@@ -936,10 +874,13 @@ function rfidFieldsValidated() {
     signupRFID = document.getElementById("txtSignupRFID").value;
     signupUID = document.getElementById("txtSignupUID").value;
     validateTag(signupRFID, signupUID);
-    if (tagAvailable)
+    if (tagAvailable) {
         return true;
-    else
+    } else {
+        alert("Tag not available");
+        //window.plugins.toast.showShortCenter("Tag not available");
         return false;
+    }
 }
 
 function validateTag(rfid, uid) {
@@ -960,13 +901,12 @@ function validateTag(rfid, uid) {
                     console.log('Tag not available');
                     tagAvailable = false;
                 }
-            }
+            },
         });
     } else {
-        alert('Incorrect format');
+        // window.plugins.toast.showShortCenter("Incorrect format");
         console.log('tag fail');
         tagAvailable = false;
-        // alert('Enter a valid RFID');
     }
 }
 
@@ -982,12 +922,9 @@ function validateUser(username) {
                 if (jsonData.flag === 'true') {
                     usernameAvailable = true;
                     console.log('username pass');
-                    // document.getElementById('labelSignupUsername').value = "Username valid";
                 } else {
                     usernameAvailable = false;
                     console.log('username fail');
-                    // document.getElementById('labelSignupUsername').value = "Username already in use";
-                    //          alert('Username already in use.');
                     $("#txtSignupUsername").focus();
                 }
             }
@@ -995,7 +932,7 @@ function validateUser(username) {
     } else {
         usernameAvailable = false;
         console.log('username fail');
-        //alert('Username should at least be 6 characters');
+        // window.plugins.toast.showShortCenter("Username should at least be 6 characters");
         $("#txtSignupUsername").focus();
     }
     allFieldsValidated();
@@ -1009,7 +946,7 @@ function validateEmail(email) {
     } else {
         console.log('email fail');
         emailAvailable = false;
-        //   alert("Not a valid email address");
+        // window.plugins.toast.showShortCenter("Not a valid email address");
         $("#txtSignupEmail").focus();
     }
     allFieldsValidated();
@@ -1023,7 +960,7 @@ function validatePassword(password) {
     } else {
         console.log('password fail');
         passwordAvailable = false;
-        //     alert("Password should be at least 6 characters");
+        //window.plugins.toast.showShortCenter("Password should be at least 6 characters");
         $("#txtSignupPassword").focus();
     }
     allFieldsValidated();
@@ -1033,15 +970,16 @@ function saveUser() {
     signupUsername = document.getElementById('txtSignupUsername').value;
     signupPassword = document.getElementById('txtSignupPassword').value;
     signupEmail = document.getElementById('txtSignupEmail').value;
-    //save user here
+
     $.getJSON('http://localhost/ProtosLabs/HopData/index.php/hop/saveuser?username=' + signupUsername + '&password=' + signupPassword +
         '&RFID=' + signupRFID + '&gender=Male' + '&email=' + signupEmail,
         function(jsonData) {
             if (jsonData.flag === "true")
-                alert("Save success");
+                alert("Save success!");
+            //window.plugins.toast.showShortCenter("Save success!");
         })
         .fail(function() {
-            alert("No internet connection");
+            //window.plugins.toast.showShortCenter("No internet connection");
         });
 }
 
@@ -1058,7 +996,6 @@ $(document)
     .on("pageinit", document, function() {
         //set default transition to SLIDE
         $.mobile.changePage.defaults.transition = 'slide';
-        $('.progress-bar').slider
         $('#homeSearch').keyup(function() {
             if ($('#homeSearch').val() != lastEntry) {
                 var searchText = $('#homeSearch').val();
@@ -1066,6 +1003,7 @@ $(document)
             }
             lastEntry = $('#homeSearch').val();
         });
+
         // EXP KNOB PROPERTIES
         var myColor = "#0095FF";
 
@@ -1123,6 +1061,7 @@ $(document)
         });
     });
 
+
 function searchUsers(searchText) {
     var listCurrentUsers = $("#listCurrentUsers");
     if (searchText !== "") {
@@ -1139,6 +1078,7 @@ function searchUsers(searchText) {
         });
     }
 }
+
 // SETTINGS
 function setProfileSettings() {
 
@@ -1184,7 +1124,8 @@ function settings_checkRFID(rfid, uid) {
     if (document.getElementById("txtRFIDChangePass").value === userPass) {
         validateTag(rfid, uid);
     } else
-        alert('Incorrect password');
+        alert("Incorrect password");
+    // window.plugins.toast.showShortCenter("Incorrect password");
 }
 
 function settings_updateRFID(newRFID, newUID) {
@@ -1192,14 +1133,14 @@ function settings_updateRFID(newRFID, newUID) {
         function(jsonData) {
             if (jsonData.flag === "true") {
                 userRFID = newRFID;
-                alert("Save success");
+                // window.plugins.toast.showShortCenter("Save success");
             } else
-                alert("Save failed");
-            changePageEvent('Home');
+            //window.plugins.toast.showShortCenter("Save failed");
+                changePageEvent('Home');
         })
         .fail(function() {
             changePageEvent('Home');
-            alert("No internet connection");
+            // window.plugins.toast.showShortCenter("No internet connection");
         });
 }
 
@@ -1216,13 +1157,14 @@ function settings_changePass() {
             function(jsonData) {
                 if (jsonData.flag === "true") {
                     userPass = newPass;
-                    alert('New password set');
+                    // window.plugins.toast.showShortCenter("New password set");
                 } else
-                    alert("Password save failed");
-                changePageEvent('Home');
+                // window.plugins.toast.showShortCenter("Password save failed");
+                    changePageEvent('Home');
             });
     } else
         alert("Incorrect password");
+    // window.plugins.toast.showShortCenter("Incorrect password");
 }
 
 function settings_clearPass() {
@@ -1263,19 +1205,19 @@ function settings_editUser() {
                     userEmail = email;
                     userGender = gender;
                     flag = true;
-                    alert('Update success');
+                    // window.plugins.toast.showShortCenter("Update success");
                 } else {
                     flag = false;
-                    alert("Update failed");
+                    // window.plugins.toast.showShortCenter("Update failed");
                 }
             },
             fail: function(jsonData) {
                 flag = false;
-                alert('No internet connection');
+                //  window.plugins.toast.showShortCenter("No internet connection");
             }
         });
     } else {
-        alert("Fields in wrong format");
+        //window.plugins.toast.showShortCenter("Fields are in wrong format");
         flag = false;
     }
     if (flag)
@@ -1313,16 +1255,8 @@ function settings_checkFilter() {
 }
 
 
-$(function() {
-    $(".dial ").knob();
-});
-
-function checkTimer() {
-    var i = window.setInterval(function() {
-        alert('hi');
-    }, 2000);
-}
 // PHONE API TEST
+
 function testVibrate() {
     navigator.notification.vibrate(2000);
 }
@@ -1364,37 +1298,16 @@ function onPhotoURISuccess(imageURI) {
         function(jsonData) {
             if (jsonData.flag === "true")
                 alert("Image saved");
+            // window.plugins.toast.showShortCenter("Image saved");
             else
                 alert("Image not saved");
+            // window.plugins.toast.showShortCenter("Image not saved");
         })
         .fail(function() {
-            alert("No internet connection");
-            db.transaction(function(tx) {
-                tx.executeSql("UPDATE userInfo SET image=? WHERE id=?", [imageBase64, currentUserID]);
-
-                tx.executeSql("SELECT image FROM userInfo WHERE id=?", [currentUserID], function(tx, res) {
-                    var largeImage = document.getElementById("mainProfilePic");
-
-                    largeImage.src = res.rows.item(0).image;
-                });
-            });
+            //window.plugins.toast.showShortCenter("No internet connection");
         });
 }
 
 function onFail(message) {
-    alert('Failed because: ' + message);
+    //window.plugins.toast.showShortCenter("Failed because: " + message);
 }
-
-
-/*
-function initializeMap(){
-var mapOptions = {
-zoom: 8,
-center: new google.maps.LatLng(-34.397, 150.644)
-};
-var map=new google.maps.Map(document.getElementById("
-googleMap ")
-,mapOptions);
-google.maps.event.addDomListener(window, 'load', initialize);
-}
-*/

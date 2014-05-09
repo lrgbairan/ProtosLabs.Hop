@@ -134,14 +134,6 @@
             <h4>Activity List</h4>
             <ul data-role="listview" id="activityList">
             </ul>
-            <!-- <div style="position:fixed; bottom: 100px;">
-                <h3>Share:</h3>
-                <div id="socialButtons">
-                     <button id="btnTwitter" onclick="window.plugins.socialsharing.shareViaTwitter(this.value)">Share via Twitter</button>
-
-                    <button id ="btnFacebook" onclick="window.plugins.socialsharing.shareViaFacebook('', null, this.value, function() {console.log('share ok')}, function(errormsg){alert(errormsg)})">Share via Facebook</button>
-                </div>
-            </div> -->
         </div>
 
          <div data-role="popup" id="myPopupDialog">
@@ -154,13 +146,13 @@
             </div>
 
             <div data-role="footer" style="text-align:center">
-                <a href="#minglePlacePopupDialog" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-check ui-btn-icon-left" data-rel="back" onclick="return mingleAccept()" data-transition ='slidedown'>Accept</a>
-                <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-delete ui-btn-icon-left" data-rel="back" onclick="return mingleReject()">Reject</a>
+                <a href="#hopPlacePopupDialog" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-check ui-btn-icon-left" data-rel="back" onclick="return hopAccept()" data-transition ='slidedown'>Accept</a>
+                <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-delete ui-btn-icon-left" data-rel="back" onclick="return hopReject()">Reject</a>
             </div>
         </div>
 
 
-        <div data-role="popup" id="minglePlacePopupDialog">
+        <div data-role="popup" id="hopPlacePopupDialog">
             <div data-role="header" class="ui-content" style="text-align:center">
                 <h1 id="challengeTitle">Accepted!</h1>
             </div>
@@ -343,8 +335,8 @@
                     <h5 id="mainProfileAbout" style="margin-top:0px !important;">"The universe always conspires to make it happen"</h5>
                     <h4 id="mainProfileClass" style="margin-bottom:0px !important; margin-top:5px !important;"></h4> 
                     <div data-role="controlgroup" data-type="horizontal" style="margin-top:10px !important;"style="text-align:center">
-                          <button id="btnMingleNo" data-inline="true" class="ui-btn" onclick="toggleStatus(this.id)">NOT READY</button>
-                          <button id="btnMingleYes" data-inline="true" class="ui-btn" onclick="toggleStatus(this.id)">READY</button>
+                          <button id="btnHopNo" data-inline="true" class="ui-btn" onclick="toggleStatus(this.id)">NOT READY</button>
+                          <button id="btnHopYes" data-inline="true" class="ui-btn" onclick="toggleStatus(this.id)">READY</button>
                     </div>
                 </div>
 
@@ -390,17 +382,16 @@
                 <img id="userProfilePic" src="resources/sampleProfilePic.png" height="100" width="100">
                 <div class="ui-grid-solo ui-responsive">
                     <h1 id="userProfileUserFullName">[insert name here]</h1>
+                    <h3 id="userProfileLevel"></h3>
                     <h4 id="userProfileClass"></h4> 
-                    <div class="horizontalLine"></div>
                     <h3 id="userProfileAbout" >"The universe always conspires to make it happen"</h3>
-                    <div class="horizontalLine"></div>
                     <!-- <h3 id="userProfileUserLevel"></h4> -->
                     <h3 id="userProfileUserTitle">[insert title here]</h3>
                 </div>
 
                 <div class="ui-grid-solo ui-responsive">
                     
-                    <div id="mingleButton">
+                    <div id="hopButton">
                     </div>
                 </div>
         </div>
